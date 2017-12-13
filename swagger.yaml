@@ -37,17 +37,20 @@ paths:
           properties:
             name:
               type: "string"
+              description: "James Bond"
             email:
               type: "string"
+              description: "james@Mi7.com"
             password:
               type: "string"
+              description: "bondjamesbond"
             confirm_password:
               type: "string"
+              description: "bondjamesbond"
+            invite_token:
+              type: "string"
+              description: "897sdfasd8fa09s8f789ds"
           description: "New user signs up to the platform"
-        x-examples:
-          application/json: "{\n  \"name\":\"Joe dimagio\",\n  \"email\":\"joe@careflow.com\"\
-            ,\n  \"password\":\"my sectrst\",\n  \"confirm_password\":\"my secret\"\
-            \n}"
       responses:
         200:
           description: "Successful creation of user"
@@ -61,10 +64,6 @@ paths:
                 type: "object"
               meta:
                 type: "object"
-          examples:
-            application/json: "{\n  \"data\": {\n    \"type\": \"user\",\n    \"id\"\
-              : \"1\",\n    \"name\":\"Joe dimagio\",\n    \"email\":\"joe@careflow.com\"\
-              \n  }\n}"
   /sign_in:
     post:
       summary: "Sign in"
@@ -84,11 +83,6 @@ paths:
       responses:
         200:
           description: "Status 200"
-          schema:
-            type: "object"
-          examples:
-            application/json: "{    \n   \"token\" : \"hgs98623wq712hjsgw823746bdjwf378632423748624\"\
-              \n  }"
   /users/password: {}
   /users:
     get:
@@ -129,6 +123,12 @@ paths:
               data:
                 $ref: "#/definitions/User"
   /users/_/{switch}:
+    patch:
+      summary: "Switch or toggle user states"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
     parameters:
     - name: "switch"
       in: "path"
