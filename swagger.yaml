@@ -29,6 +29,10 @@ paths:
         required: false
         type: "string"
         x-example: "sda8f9d7f0asdf7a90d7f0a"
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
       - name: "body"
         in: "body"
         required: true
@@ -55,6 +59,8 @@ paths:
         200:
           description: "Successful creation of user"
           schema:
+            required:
+            - "data"
             type: "object"
             description: "JSON:API formatted output"
             properties:
@@ -64,12 +70,20 @@ paths:
                 type: "object"
               meta:
                 type: "object"
+          examples:
+            application/json: "{\n  \"data\": {\n    \"type\": \"user\",\n    \"id\"\
+              : \"1\",\n    \"name\": \"Joe dimagio\",\n    \"email\": \"joe@careflow.com\"\
+              \n  }\n}"
   /sign_in:
     post:
       summary: "Sign in"
       description: "Sign into the platform"
       consumes: []
       parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
       - name: "body"
         in: "body"
         required: true
@@ -87,7 +101,11 @@ paths:
   /users:
     get:
       summary: "Get user data"
-      parameters: []
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Status 200"
@@ -98,7 +116,11 @@ paths:
                 $ref: "#/definitions/User"
     delete:
       summary: "Cancel user account"
-      parameters: []
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
       responses:
         204:
           description: "Status 204"
@@ -106,6 +128,10 @@ paths:
       summary: "Updat user data"
       consumes: []
       parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
       - name: "body"
         in: "body"
         required: true
@@ -125,7 +151,11 @@ paths:
   /users/_/{switch}:
     patch:
       summary: "Switch or toggle user states"
-      parameters: []
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Status 200"
@@ -225,11 +255,18 @@ securityDefinitions:
 definitions:
   User:
     type: "object"
+    required:
+    - "avatar"
+    - "birth_date"
+    - "id"
+    - "mobile_no"
+    - "name"
     properties:
       id:
         type: "integer"
       name:
         type: "string"
+        example: "kiki lolo"
       birth_date:
         type: "string"
         format: "date"
