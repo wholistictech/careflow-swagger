@@ -13,77 +13,60 @@ consumes:
 - "application/json"
 produces:
 - "application/json"
-security:
-- JWT: []
 paths:
-  /signup:
+  /sign_up:
     post:
       tags:
-      - "Users"
+      - "Authentication"
       summary: "Sign up"
       description: "Sign up to the platform"
-      consumes: []
+      consumes:
+      - "application/json"
       parameters:
-      - name: "invite_token"
-        in: "query"
-        required: false
-        type: "string"
-        x-example: "sda8f9d7f0asdf7a90d7f0a"
-      - name: "Authorization"
-        in: "header"
-        required: false
-        type: "string"
       - name: "body"
         in: "body"
         required: true
         schema:
           type: "object"
-          properties:
-            name:
-              type: "string"
-              description: "James Bond"
-            email:
-              type: "string"
-              description: "james@Mi7.com"
-            password:
-              type: "string"
-              description: "bondjamesbond"
-            confirm_password:
-              type: "string"
-              description: "bondjamesbond"
-            invite_token:
-              type: "string"
-              description: "897sdfasd8fa09s8f789ds"
-          description: "New user signs up to the platform"
+        x-examples:
+          application/json: "{\n\t\"user\" :\n\t{\n\t\t\"name\": \"Kili Polo\",\n\t\
+            \t\"email\":\"kili@polo2.com\",\n\t\t\"password\":\"kilipolo\",\n\t\t\"\
+            password_confirmation\": \"kilipolo\"\n\t}\n}"
       responses:
         200:
-          description: "Successful creation of user"
+          description: "Status 200"
           schema:
             required:
             - "data"
             type: "object"
-            description: "JSON:API formatted output"
             properties:
               data:
                 $ref: "#/definitions/User"
-              errors:
-                type: "object"
               meta:
                 type: "object"
           examples:
-            application/json: "{\n  \"data\": {\n    \"type\": \"user\",\n    \"id\"\
-              : \"1\",\n    \"name\": \"Joe dimagio\",\n    \"email\": \"joe@careflow.com\"\
-              \n  }\n}"
+            application/json: "{\n    \"data\": {\n        \"id\": 44,\n        \"\
+              type\": \"users\",\n        \"attributes\": {\n            \"email\"\
+              : \"kiki@lolo11.com\",\n            \"created_at\": \"2017-12-14T14:12:31.086Z\"\
+              \n        }\n    }\n}"
+        422:
+          description: "Status 422"
+          schema:
+            type: "object"
+            description: "errors with array of error objects"
+          examples:
+            application/json: "{\n    \"errors\": {\n        \"email\": [\n      \
+              \      \"has already been taken\"\n        ]\n    }\n}"
+      security:
+      - API Headers: []
   /sign_in:
     post:
+      tags:
+      - "Authentication"
       summary: "Sign in"
       description: "Sign into the platform"
       consumes: []
       parameters:
-      - name: "Authorization"
-        in: "header"
-        required: false
-        type: "string"
       - name: "body"
         in: "body"
         required: true
@@ -94,18 +77,32 @@ paths:
               type: "string"
             password:
               type: "string"
+        x-examples:
+          application/json: "{\n\t\"user\" :\n\t{\n\t\t\"email\":\"kiki@lolo4.com\"\
+            ,\n\t\t\"password\":\"kikiloloo\"\n\t}\n}"
       responses:
         200:
           description: "Status 200"
+          schema:
+            type: "object"
+          examples:
+            application/json: "\n{\n  \"data\": {\n    \"id\": 44,\n    \"type\":\
+              \ \"users\",\n    \"attributes\": {\n      \"email\": \"kiki@lolo11.com\"\
+              ,\n      \"created_at\": \"2017-12-14T14:12:31.086Z\"\n    }\n  }\n}"
+          headers:
+            Authorization:
+              type: "string"
+              description: "JWT token"
+              x-example: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIwZGE3Y2E0Yy1lMTViLTQ5ZDUtODBiNy1hNjZmMTAxOWIyN2IiLCJmb28iOiJiYXIiLCJzdWIiOiIxIiwic2NwIjoidXNlciIsImF1ZCI6bnVsbCwiaWF0IjoxNTEzNzY3MDA3LCJleHAiOjE1MTM3NzA2MDd9.dnjKmusPb7ku-VY97pf71DV0bYSGdyjjKjJJUoUBV7s"
+      security:
+      - API Headers: []
   /users/password: {}
-  /users:
+  /user:
     get:
+      tags:
+      - "Users"
       summary: "Get user data"
-      parameters:
-      - name: "Authorization"
-        in: "header"
-        required: false
-        type: "string"
+      parameters: []
       responses:
         200:
           description: "Status 200"
@@ -114,24 +111,32 @@ paths:
             properties:
               data:
                 $ref: "#/definitions/User"
+          examples:
+            application/json: "{\n\t\"data\": {\n\t\t\"id\": 44,\n\t\t\"type\": \"\
+              users\",\n\t\t\"attributes\": {\n\t\t\t\"jti\": \"0da7ca4c-e15b-49d5-80b7-a66f1019b27b\"\
+              ,\n\t\t\t\"first_name\": null,\n\t\t\t\"last_name\": null,\n\t\t\t\"\
+              birth_date\": null,\n\t\t\t\"mobile_no\": null,\n\t\t\t\"avatar\": null,\n\
+              \t\t\t\"address_data\": null,\n\t\t\t\"pin_no\": null,\n\t\t\t\"invitation\"\
+              : null,\n\t\t\t\"invited_by_id\": null,\n\t\t\t\"caregiver_type\": null,\n\
+              \t\t\t\"position\": null,\n\t\t\t\"role\": null,\n\t\t\t\"data\": null,\n\
+              \t\t\t\"status\": null,\n\t\t\t\"lock_version\": 3,\n\t\t\t\"created_at\"\
+              : \"2017-12-20T09:48:13.023Z\",\n\t\t\t\"updated_at\": \"2017-12-20T10:50:07.625Z\"\
+              ,\n\t\t\t\"email\": \"kiki@lolo11.com\",\n\t\t\t\"created_at\": \"2017-12-14T14:12:31.086Z\"\
+              \n\t\t}\n\t}\n}"
     delete:
+      tags:
+      - "Users"
       summary: "Cancel user account"
-      parameters:
-      - name: "Authorization"
-        in: "header"
-        required: false
-        type: "string"
+      parameters: []
       responses:
         204:
           description: "Status 204"
     patch:
-      summary: "Updat user data"
+      tags:
+      - "Users"
+      summary: "Update user data"
       consumes: []
       parameters:
-      - name: "Authorization"
-        in: "header"
-        required: false
-        type: "string"
       - name: "body"
         in: "body"
         required: true
@@ -140,6 +145,13 @@ paths:
           properties:
             data:
               $ref: "#/definitions/User"
+        x-examples:
+          application/json: "{\n\t\"data\": {\n\t\t\"id\": 44,\n\t\t\"type\": \"users\"\
+            ,\n\t\t\"attributes\": {\n\t\t\t\"first_name\": null,\n\t\t\t\"last_name\"\
+            : null,\n\t\t\t\"birth_date\": null,\n\t\t\t\"mobile_no\": null,\n\t\t\
+            \t\"created_at\": \"2017-12-20T09:48:13.023Z\",\n\t\t\t\"updated_at\"\
+            : \"2017-12-20T10:50:07.625Z\",\n\t\t\t\"email\": \"kiki@lolo11.com\"\
+            ,\n\t\t\t\"created_at\": \"2017-12-14T14:12:31.086Z\"\n\t\t}\n\t}\n}"
       responses:
         202:
           description: "Modification accepted"
@@ -148,23 +160,34 @@ paths:
             properties:
               data:
                 $ref: "#/definitions/User"
-  /users/_/{switch}:
+          examples:
+            application/json: "{\n\t\"data\": {\n\t\t\"id\": 44,\n\t\t\"type\": \"\
+              users\",\n\t\t\"attributes\": {\n\t\t\t\"jti\": \"0da7ca4c-e15b-49d5-80b7-a66f1019b27b\"\
+              ,\n\t\t\t\"first_name\": null,\n\t\t\t\"last_name\": null,\n\t\t\t\"\
+              birth_date\": null,\n\t\t\t\"mobile_no\": null,\n\t\t\t\"avatar\": null,\n\
+              \t\t\t\"address_data\": null,\n\t\t\t\"pin_no\": null,\n\t\t\t\"invitation\"\
+              : null,\n\t\t\t\"invited_by_id\": null,\n\t\t\t\"caregiver_type\": null,\n\
+              \t\t\t\"position\": null,\n\t\t\t\"role\": null,\n\t\t\t\"data\": null,\n\
+              \t\t\t\"status\": null,\n\t\t\t\"lock_version\": 3,\n\t\t\t\"created_at\"\
+              : \"2017-12-20T09:48:13.023Z\",\n\t\t\t\"updated_at\": \"2017-12-20T10:50:07.625Z\"\
+              ,\n\t\t\t\"email\": \"kiki@lolo11.com\",\n\t\t\t\"created_at\": \"2017-12-14T14:12:31.086Z\"\
+              \n\t\t}\n\t}\n}"
+  /user/_/{switch}:
     patch:
+      tags:
+      - "Users"
       summary: "Switch or toggle user states"
-      parameters:
-      - name: "Authorization"
-        in: "header"
-        required: false
-        type: "string"
+      parameters: []
       responses:
         200:
           description: "Status 200"
+        422:
+          description: "Status 422"
     parameters:
     - name: "switch"
       in: "path"
       required: true
       type: "string"
-      x-example: "accept_invite"
   /firebasebucket/images/avatar_{user_id}_{user_name}:
     parameters:
     - name: "user_id"
@@ -175,7 +198,18 @@ paths:
       in: "path"
       required: true
       type: "string"
-  /documents: {}
+  /sign_out:
+    delete:
+      tags:
+      - "Authentication"
+      - "Pending"
+      description: "Sign out"
+      parameters: []
+      responses:
+        202:
+          description: "Status 202"
+      security:
+      - API Headers: []
   /documents/{id}:
     parameters:
     - name: "id"
@@ -196,6 +230,7 @@ paths:
       required: true
       type: "string"
       x-example: "publish"
+  /documents: {}
   /firestore/user/{user_id}/document:
     parameters:
     - name: "user_id"
@@ -246,11 +281,9 @@ paths:
       x-example: "seed"
   /activities: {}
 securityDefinitions:
-  JWT:
-    description: "JWT token authentication. Carries session information like user.\
-      \ https://jwt.io/"
+  API Headers:
     type: "apiKey"
-    name: "Authorization"
+    name: "Accept"
     in: "header"
 definitions:
   User:
@@ -290,7 +323,7 @@ definitions:
         type: "string"
       role:
         type: "string"
-      profile:
+      data:
         type: "object"
       status:
         type: "string"
