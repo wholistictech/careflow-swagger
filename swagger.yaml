@@ -9,6 +9,9 @@ info:
   contact:
     name: "Kariuki Gathitu"
     email: "kariuki@zegetech.com"
+host: "35.199.148.142"
+schemes:
+- "http"
 consumes:
 - "application/json"
 produces:
@@ -29,21 +32,15 @@ paths:
         schema:
           type: "object"
         x-examples:
-          application/json: "{\n\t\"user\" :\n\t{\n\t\t\"name\": \"Kili Polo\",\n\t\
-            \t\"email\":\"kili@polo2.com\",\n\t\t\"password\":\"kilipolo\",\n\t\t\"\
-            password_confirmation\": \"kilipolo\"\n\t}\n}"
+          application/json: "{\n    \"data\": {\n        \"type\": \"users\",\n  \
+            \      \"attributes\": {\n            \"name\": \"John Kilometer\",\n\
+            \            \"email\": \"kili@polo9.com\",\n            \"password\"\
+            : \"usadoifuosdf\"\n        }\n    }\n}"
       responses:
         200:
           description: "Status 200"
           schema:
-            required:
-            - "data"
             type: "object"
-            properties:
-              data:
-                $ref: "#/definitions/User"
-              meta:
-                type: "object"
           examples:
             application/json: "{\n    \"data\": {\n        \"id\": 44,\n        \"\
               type\": \"users\",\n        \"attributes\": {\n            \"email\"\
@@ -72,11 +69,6 @@ paths:
         required: true
         schema:
           type: "object"
-          properties:
-            email:
-              type: "string"
-            password:
-              type: "string"
         x-examples:
           application/json: "{\n\t\"user\" :\n\t{\n\t\t\"email\":\"kiki@lolo4.com\"\
             ,\n\t\t\"password\":\"kikiloloo\"\n\t}\n}"
@@ -86,9 +78,11 @@ paths:
           schema:
             type: "object"
           examples:
-            application/json: "\n{\n  \"data\": {\n    \"id\": 44,\n    \"type\":\
-              \ \"users\",\n    \"attributes\": {\n      \"email\": \"kiki@lolo11.com\"\
-              ,\n      \"created_at\": \"2017-12-14T14:12:31.086Z\"\n    }\n  }\n}"
+            application/json: "{\n    \"data\": {\n        \"id\": 111,\n        \"\
+              type\": \"users\",\n        \"attributes\": {\n            \"name\"\
+              : \"John Kilometer\",\n            \"email\": \"kili@polo5.com\",\n\
+              \            \"created_at\": \"2017-12-21T11:22:43.218Z\"\n        }\n\
+              \    }\n}"
           headers:
             Authorization:
               type: "string"
@@ -97,7 +91,37 @@ paths:
       security:
       - API Headers: []
   /users/password: {}
-  /user:
+  /users/{id}/{switch}:
+    patch:
+      tags:
+      - "Users"
+      summary: "Switch or toggle user states"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
+        422:
+          description: "Status 422"
+    parameters:
+    - name: "id"
+      in: "path"
+      required: true
+      type: "string"
+    - name: "switch"
+      in: "path"
+      required: true
+      type: "string"
+  /firebasebucket/images/avatar_{user_id}_{user_name}:
+    parameters:
+    - name: "user_id"
+      in: "path"
+      required: true
+      type: "string"
+    - name: "user_name"
+      in: "path"
+      required: true
+      type: "string"
+  /users/{id}:
     get:
       tags:
       - "Users"
@@ -108,9 +132,6 @@ paths:
           description: "Status 200"
           schema:
             type: "object"
-            properties:
-              data:
-                $ref: "#/definitions/User"
           examples:
             application/json: "{\n\t\"data\": {\n\t\t\"id\": 44,\n\t\t\"type\": \"\
               users\",\n\t\t\"attributes\": {\n\t\t\t\"jti\": \"0da7ca4c-e15b-49d5-80b7-a66f1019b27b\"\
@@ -157,9 +178,6 @@ paths:
           description: "Modification accepted"
           schema:
             type: "object"
-            properties:
-              data:
-                $ref: "#/definitions/User"
           examples:
             application/json: "{\n\t\"data\": {\n\t\t\"id\": 44,\n\t\t\"type\": \"\
               users\",\n\t\t\"attributes\": {\n\t\t\t\"jti\": \"0da7ca4c-e15b-49d5-80b7-a66f1019b27b\"\
@@ -172,29 +190,8 @@ paths:
               : \"2017-12-20T09:48:13.023Z\",\n\t\t\t\"updated_at\": \"2017-12-20T10:50:07.625Z\"\
               ,\n\t\t\t\"email\": \"kiki@lolo11.com\",\n\t\t\t\"created_at\": \"2017-12-14T14:12:31.086Z\"\
               \n\t\t}\n\t}\n}"
-  /user/_/{switch}:
-    patch:
-      tags:
-      - "Users"
-      summary: "Switch or toggle user states"
-      parameters: []
-      responses:
-        200:
-          description: "Status 200"
-        422:
-          description: "Status 422"
     parameters:
-    - name: "switch"
-      in: "path"
-      required: true
-      type: "string"
-  /firebasebucket/images/avatar_{user_id}_{user_name}:
-    parameters:
-    - name: "user_id"
-      in: "path"
-      required: true
-      type: "string"
-    - name: "user_name"
+    - name: "id"
       in: "path"
       required: true
       type: "string"
@@ -210,7 +207,71 @@ paths:
           description: "Status 202"
       security:
       - API Headers: []
+  /documents:
+    post:
+      tags:
+      - "Documents"
+      summary: "Create document"
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+        x-examples:
+          application/json: "{\n\t\"data\": {\n\t\t\"type\": \"documents\",\n\t\t\"\
+            id\": \"09f9a8sf08das09f8d\",\n\t\t\"attributes\": {\n\t\t\t\"name\":\
+            \ \"Driving license\",\n\t\t\t\"document_id\": \"DL8989843\",\n\t\t\t\"\
+            expiry_date\": \"2017-12-20\",\n\t\t\t\"referee\": {\n\t\t\t\t\"name\"\
+            : \"John Scot\",\n\t\t\t\t\"role\": \"instructor\"\n\t\t\t},\n\t\t\t\"\
+            data\": {\n\t\t\t\t\"files\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"name\":\"\
+            dl\",\n\t\t\t\t\t\t\"url\": \"firebasestore://user/1/09f9a8sf08das09f8d\"\
+            \n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t}\n\t\t}\n\t}\n}\n\n"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            type: "object"
+          examples:
+            application/json: "{\n\t\"data\": {\n\t\t\"type\": \"documents\",\n\t\t\
+              \"id\": \"09f9a8sf08das09f8d\",\n\t\t\"attributes\": {\n\t\t\t\"name\"\
+              : \"Driving license\",\n\t\t\t\"document_id\": \"DL8989843\",\n\t\t\t\
+              \"expiry_date\": \"2017-12-20\",\n\t\t\t\"referee\": {\n\t\t\t\t\"name\"\
+              : \"John Scot\",\n\t\t\t\t\"role\": \"instructor\"\n\t\t\t},\n\t\t\t\
+              \"data\": {\n\t\t\t\t\"files\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"name\"\
+              :\"dl\",\n\t\t\t\t\t\t\"url\": \"firebasestore://user/1/09f9a8sf08das09f8d\"\
+              \n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t}\n\t\t}\n\t}\n}\n\n"
   /documents/{id}:
+    patch:
+      tags:
+      - "Documents"
+      summary: "Edit document"
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+        x-examples:
+          application/json: "{\n\t\"data\": {\n\t\t\"type\": \"documents\",\n\t\t\"\
+            id\": \"09f9a8sf08das09f8d\",\n\t\t\"attributes\": {\n\t\t\t\"expiry_date\"\
+            : \"2017-12-20\",\n\t\t}\n\t}\n}\n\n"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            type: "object"
+          examples:
+            application/json: "{\n\t\"data\": {\n\t\t\"type\": \"documents\",\n\t\t\
+              \"id\": \"09f9a8sf08das09f8d\",\n\t\t\"attributes\": {\n\t\t\t\"name\"\
+              : \"Driving license\",\n\t\t\t\"document_id\": \"DL8989843\",\n\t\t\t\
+              \"expiry_date\": \"2017-12-20\",\n\t\t\t\"referee\": {\n\t\t\t\t\"name\"\
+              : \"John Scot\",\n\t\t\t\t\"role\": \"instructor\"\n\t\t\t},\n\t\t\t\
+              \"data\": {\n\t\t\t\t\"files\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"name\"\
+              :\"dl\",\n\t\t\t\t\t\t\"url\": \"firebasestore://user/1/09f9a8sf08das09f8d\"\
+              \n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t}\n\t\t}\n\t}\n}\n\n"
     parameters:
     - name: "id"
       in: "path"
@@ -230,7 +291,6 @@ paths:
       required: true
       type: "string"
       x-example: "publish"
-  /documents: {}
   /firestore/user/{user_id}/document:
     parameters:
     - name: "user_id"
