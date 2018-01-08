@@ -9,7 +9,7 @@ info:
   contact:
     name: "Kariuki Gathitu"
     email: "kariuki@zegetech.com"
-host: "35.199.148.142"
+host: "104.196.250.49"
 schemes:
 - "http"
 consumes:
@@ -88,39 +88,112 @@ paths:
               type: "string"
               description: "JWT token"
               x-example: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIwZGE3Y2E0Yy1lMTViLTQ5ZDUtODBiNy1hNjZmMTAxOWIyN2IiLCJmb28iOiJiYXIiLCJzdWIiOiIxIiwic2NwIjoidXNlciIsImF1ZCI6bnVsbCwiaWF0IjoxNTEzNzY3MDA3LCJleHAiOjE1MTM3NzA2MDd9.dnjKmusPb7ku-VY97pf71DV0bYSGdyjjKjJJUoUBV7s"
+            Access-Control-Expose-Headers:
+              type: "string"
+              description: "Allow authorization header"
+              x-example: "authorization"
       security:
       - API Headers: []
-  /users/password: {}
-  /users/{id}/{switch}:
-    patch:
+  /sign_out:
+    delete:
       tags:
-      - "Users"
-      summary: "Switch or toggle user states"
-      parameters: []
+      - "Authentication"
+      - "Pending"
+      description: "Sign out"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Active JWT token"
+        x-example: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIwZGE3Y2E0Yy1lMTViLTQ5ZDUtODBiNy1hNjZmMTAxOWIyN2IiLCJmb28iOiJiYXIiLCJzdWIiOiIxIiwic2NwIjoidXNlciIsImF1ZCI6bnVsbCwiaWF0IjoxNTEzNzY3MDA3LCJleHAiOjE1MTM3NzA2MDd9.dnjKmusPb7ku-VY97pf71DV0bYSGdyjjKjJJUoUBV7s"
+      responses:
+        202:
+          description: "Status 202"
+      security: []
+  /password:
+    post:
+      summary: "Reset Password"
+      description: "Reset password for certain email"
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+        x-examples:
+          application/json: "{\n\t\"user\" :\n\t{\n\t\t\"email\":\"kili@polo10.com\"\
+            \n\t}\n}"
+      responses:
+        204:
+          description: "Status 204"
+          schema:
+            type: "object"
+          examples:
+            application/json: "{\n    \"data\": null\n}"
+      security:
+      - API Headers: []
+    patch:
+      summary: "Update password"
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+        x-examples:
+          application/json: "{\n\t\"user\" :\n\t{\n\t\t\"password\":\"newpassword\"\
+            ,\n\t\t\"password_confirmation\":\"newpassword\",\n\t\t\"reset_password_token\"\
+            : \"htMbxyg6hG1icnPx6HpS\"\n\t}\n}"
+      responses:
+        204:
+          description: "Status 204"
+        422:
+          description: "Status 422"
+          schema:
+            type: "object"
+          examples:
+            application/json: "{\n    \"errors\": {\n        \"reset_password_token\"\
+              : [\n            \"is invalid\"\n        ]\n    }\n}"
+      security:
+      - API Headers: []
+  /confirmation:
+    get:
+      summary: "Confirm"
+      parameters:
+      - name: "confirmation_token"
+        in: "query"
+        required: false
+        type: "string"
+        x-example: "987897f987f98ds7affa"
       responses:
         200:
           description: "Status 200"
-        422:
-          description: "Status 422"
-    parameters:
-    - name: "id"
-      in: "path"
-      required: true
-      type: "string"
-    - name: "switch"
-      in: "path"
-      required: true
-      type: "string"
-  /firebasebucket/images/avatar_{user_id}_{user_name}:
-    parameters:
-    - name: "user_id"
-      in: "path"
-      required: true
-      type: "string"
-    - name: "user_name"
-      in: "path"
-      required: true
-      type: "string"
+          schema:
+            type: "object"
+          examples:
+            application/json: "{\n    \"data\": null\n}"
+      security:
+      - API Headers: []
+    post:
+      summary: "Resend confirmation"
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+        x-examples:
+          application/json: " {\n    \"user\": {\n         \"email\": \"kili@polo9.com\"\
+            \n    }\n}\n"
+      responses:
+        204:
+          description: "Status 204"
+      security:
+      - API Headers: []
   /users/{id}:
     get:
       tags:
@@ -135,15 +208,16 @@ paths:
           examples:
             application/json: "{\n\t\"data\": {\n\t\t\"id\": 44,\n\t\t\"type\": \"\
               users\",\n\t\t\"attributes\": {\n\t\t\t\"jti\": \"0da7ca4c-e15b-49d5-80b7-a66f1019b27b\"\
-              ,\n\t\t\t\"first_name\": null,\n\t\t\t\"last_name\": null,\n\t\t\t\"\
-              birth_date\": null,\n\t\t\t\"mobile_no\": null,\n\t\t\t\"avatar\": null,\n\
-              \t\t\t\"address_data\": null,\n\t\t\t\"pin_no\": null,\n\t\t\t\"invitation\"\
-              : null,\n\t\t\t\"invited_by_id\": null,\n\t\t\t\"caregiver_type\": null,\n\
-              \t\t\t\"position\": null,\n\t\t\t\"role\": null,\n\t\t\t\"data\": null,\n\
-              \t\t\t\"status\": null,\n\t\t\t\"lock_version\": 3,\n\t\t\t\"created_at\"\
-              : \"2017-12-20T09:48:13.023Z\",\n\t\t\t\"updated_at\": \"2017-12-20T10:50:07.625Z\"\
-              ,\n\t\t\t\"email\": \"kiki@lolo11.com\",\n\t\t\t\"created_at\": \"2017-12-14T14:12:31.086Z\"\
-              \n\t\t}\n\t}\n}"
+              ,\n\t\t\t\"first_name\": \"Kiki\",\n\t\t\t\"last_name\": \"Lolo\",\n\
+              \t\t\t\"birth_date\": \"01-01-1965\",\n\t\t\t\"mobile_no\": 854576873478,\n\
+              \t\t\t\"avatar\": null,\n\t\t\t\"address_data\": \"71 Pilgrim Avenue\
+              \ Chevy Chase, MD 20815\",\n\t\t\t\"pin_no\": null,\n\t\t\t\"invitation\"\
+              : null,\n\t\t\t\"invited_by_id\": null,\n\t\t\t\"caregiver_type\": \"\
+              null\",\n\t\t\t\"position\": \"Caregiver II\",\n\t\t\t\"role\": null,\n\
+              \t\t\t\"data\": null,\n\t\t\t\"status\": null,\n\t\t\t\"lock_version\"\
+              : 3,\n\t\t\t\"created_at\": \"2017-12-20T09:48:13.023Z\",\n\t\t\t\"\
+              updated_at\": \"2017-12-20T10:50:07.625Z\",\n\t\t\t\"email\": \"kiki@lolo11.com\"\
+              ,\n\t\t\t\"created_at\": \"2017-12-14T14:12:31.086Z\"\n\t\t}\n\t}\n}"
     delete:
       tags:
       - "Users"
@@ -195,18 +269,36 @@ paths:
       in: "path"
       required: true
       type: "string"
-  /sign_out:
-    delete:
+  /users/{id}/{switch}:
+    patch:
       tags:
-      - "Authentication"
-      - "Pending"
-      description: "Sign out"
+      - "Users"
+      summary: "Switch or toggle user states"
       parameters: []
       responses:
-        202:
-          description: "Status 202"
-      security:
-      - API Headers: []
+        200:
+          description: "Status 200"
+        422:
+          description: "Status 422"
+    parameters:
+    - name: "id"
+      in: "path"
+      required: true
+      type: "string"
+    - name: "switch"
+      in: "path"
+      required: true
+      type: "string"
+  /firebasebucket/images/avatar_{user_id}_{user_name}:
+    parameters:
+    - name: "user_id"
+      in: "path"
+      required: true
+      type: "string"
+    - name: "user_name"
+      in: "path"
+      required: true
+      type: "string"
   /documents:
     post:
       tags:
@@ -314,7 +406,7 @@ paths:
       in: "path"
       required: true
       type: "string"
-  /contracts/1/_/{switch}:
+  /contracts/1/{switch}:
     parameters:
     - name: "switch"
       in: "path"
@@ -328,7 +420,7 @@ paths:
       in: "path"
       required: true
       type: "string"
-  /notification/{id}/_/{switch}:
+  /notification/{id}/{switch}:
     parameters:
     - name: "id"
       in: "path"
