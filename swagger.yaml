@@ -5,73 +5,52 @@ info:
     \ api format conforms to JSON:API format except the public pages for log in and\
     \ sign ups. "
   version: "1.0.0"
-  title: "Careflow API"
+  title: "CareflowCaregiver"
   contact:
     name: "Kariuki Gathitu"
     email: "kariuki@zegetech.com"
-host: "104.196.250.49"
+host: "careflow-api-staging.zegetech.com"
 basePath: "/api/v1"
 schemes:
-- "http"
+- "https"
 consumes:
-- "application/json"
+- "application/vnd.api+json"
 produces:
-- "application/json"
+- "application/vnd.api+json"
+security:
+- JWT: []
+- JSONAPI: []
 paths:
-  /sign_up:
+  /login:
     post:
       tags:
       - "Authentication"
-      summary: "Sign up"
-      description: "Sign up to the platform"
-      consumes:
-      - "application/json"
-      parameters:
-      - name: "body"
-        in: "body"
-        required: true
-        schema:
-          type: "object"
-        x-examples:
-          application/json: "{\n    \"data\": {\n        \"type\": \"users\",\n  \
-            \      \"attributes\": {\n            \"name\": \"John Kilometer\",\n\
-            \            \"email\": \"kili@polo9.com\",\n            \"password\"\
-            : \"usadoifuosdf\"\n        }\n    }\n}"
-      responses:
-        200:
-          description: "Status 200"
-          schema:
-            type: "object"
-          examples:
-            application/json: "{\n    \"data\": {\n        \"id\": 44,\n        \"\
-              type\": \"users\",\n        \"attributes\": {\n            \"email\"\
-              : \"kiki@lolo11.com\",\n            \"created_at\": \"2017-12-14T14:12:31.086Z\"\
-              \n        }\n    }\n}"
-        422:
-          description: "Status 422"
-          schema:
-            type: "object"
-            description: "errors with array of error objects"
-          examples:
-            application/json: "{\n    \"errors\": {\n        \"email\": [\n      \
-              \      \"has already been taken\"\n        ]\n    }\n}"
-      security:
-      - API Headers: []
-  /sign_in:
-    post:
-      tags:
-      - "Authentication"
-      summary: "Sign in"
-      description: "Sign into the platform"
+      summary: "Login"
+      description: "Sign into the platform. Gives back a JWT token for the user to\
+        \ log  in"
       consumes: []
+      produces:
+      - "application/vnd.api+json"
       parameters:
+      - name: "Accept"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
       - name: "body"
         in: "body"
         required: true
         schema:
           type: "object"
         x-examples:
-          application/json: "{\n\t\"user\" :\n\t{\n\t\t\"email\":\"kiki@lolo4.com\"\
+          application/vnd.api+json: "{\n\t\"user\" :\n\t{\n\t\t\"email\":\"kiki@lolo4.com\"\
             ,\n\t\t\"password\":\"kikiloloo\"\n\t}\n}"
       responses:
         200:
@@ -79,11 +58,11 @@ paths:
           schema:
             type: "object"
           examples:
-            application/json: "{\n    \"data\": {\n        \"id\": 111,\n        \"\
-              type\": \"users\",\n        \"attributes\": {\n            \"name\"\
-              : \"John Kilometer\",\n            \"email\": \"kili@polo5.com\",\n\
-              \            \"created_at\": \"2017-12-21T11:22:43.218Z\"\n        }\n\
-              \    }\n}"
+            application/vnd.api+json: "{\n    \"data\": {\n        \"id\": 116,\n\
+              \        \"type\": \"users\",\n        \"attributes\": {\n         \
+              \   \"name\": \"John Kilometer\",\n            \"email\": \"kili@polo10.com\"\
+              ,\n            \"created_at\": \"2017-12-21T12:57:43.581Z\"\n      \
+              \  }\n    }\n}"
           headers:
             Authorization:
               type: "string"
@@ -91,79 +70,121 @@ paths:
               x-example: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIwZGE3Y2E0Yy1lMTViLTQ5ZDUtODBiNy1hNjZmMTAxOWIyN2IiLCJmb28iOiJiYXIiLCJzdWIiOiIxIiwic2NwIjoidXNlciIsImF1ZCI6bnVsbCwiaWF0IjoxNTEzNzY3MDA3LCJleHAiOjE1MTM3NzA2MDd9.dnjKmusPb7ku-VY97pf71DV0bYSGdyjjKjJJUoUBV7s"
             Access-Control-Expose-Headers:
               type: "string"
-              description: "Allow authorization header"
-              x-example: "authorization"
+              x-example: "Authorization"
       security:
-      - API Headers: []
-  /sign_out:
-    delete:
-      tags:
-      - "Authentication"
-      description: "Sign out"
-      parameters:
-      - name: "Authorization"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Active JWT token"
-        x-example: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIwZGE3Y2E0Yy1lMTViLTQ5ZDUtODBiNy1hNjZmMTAxOWIyN2IiLCJmb28iOiJiYXIiLCJzdWIiOiIxIiwic2NwIjoidXNlciIsImF1ZCI6bnVsbCwiaWF0IjoxNTEzNzY3MDA3LCJleHAiOjE1MTM3NzA2MDd9.dnjKmusPb7ku-VY97pf71DV0bYSGdyjjKjJJUoUBV7s"
-      responses:
-        202:
-          description: "Status 202"
-      security: []
-  /password:
+      - JSONAPI: []
+  /sign_up:
     post:
       tags:
       - "Authentication"
-      summary: "Reset Password"
-      description: "Reset password for certain email"
-      consumes: []
+      - "Defered"
+      summary: "Sign up"
+      description: "Sign up to the platform through an invitation token"
+      consumes:
+      - "application/vnd.api+json"
       parameters:
+      - name: "Accept"
+        in: "header"
+        required: true
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: true
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
       - name: "body"
         in: "body"
         required: true
         schema:
           type: "object"
         x-examples:
-          application/json: "{\n\t\"user\" :\n\t{\n\t\t\"email\":\"kili@polo10.com\"\
-            \n\t}\n}"
+          application/vnd.api+json: " {\n    \"user\": {\n         \"invitation_token\"\
+            : \"sc46MX7-jzoo9N5qtL6y\",\n         \"password\": \"newpassword\",\n\
+            \         \"password_confirmation\": \"newpassword\",\n         \"name\"\
+            : \"kariuki gathitu\"\n    }\n}\n"
       responses:
-        204:
-          description: "Status 204"
+        200:
+          description: "Status 200"
           schema:
             type: "object"
           examples:
-            application/json: "{\n    \"data\": null\n}"
-      security:
-      - API Headers: []
-    patch:
-      tags:
-      - "Authentication"
-      summary: "Update password"
-      description: "Update the password for a given reset request"
-      consumes: []
-      parameters:
-      - name: "body"
-        in: "body"
-        required: true
-        schema:
-          type: "object"
-        x-examples:
-          application/json: "{\n\t\"user\" :\n\t{\n\t\t\"password\":\"newpassword\"\
-            ,\n\t\t\"password_confirmation\":\"newpassword\",\n\t\t\"reset_password_token\"\
-            : \"htMbxyg6hG1icnPx6HpS\"\n\t}\n}"
-      responses:
-        204:
-          description: "Status 204"
+            application/vnd.api+json: "{\n    \"data\": {\n        \"id\": 116,\n\
+              \        \"type\": \"users\",\n        \"attributes\": {\n         \
+              \   \"name\": \"John Kilometer\",\n           \"first-name\": \"John\
+              \ Kilometer\",\n           \"last-name\": \"John Kilometer\",\n    \
+              \        \"email\": \"kili@polo10.com\",\n            \"created_at\"\
+              : \"2017-12-21T12:57:43.581Z\"\n        }\n    }\n}"
+          headers:
+            Authorization:
+              type: "string"
+              x-example: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJhNGI1MWNmYS0xOTg1LTQxNjktODFhYi03Yzk5NzUwZmRkM2EiLCJzdWIiOiIxMTYiLCJzY3AiOiJ1c2VyIiwiYXVkIjpudWxsLCJpYXQiOjE1MTU1OTI4MTMsImV4cCI6MTUxNTU5NjQxM30.q6q1ZMO6PqGDQWfTSM2UpvLraLgbDJ_M3vgDAcuxNS0"
+            Access-Control-Expose-Headers:
+              type: "string"
+              x-example: "Authorization"
         422:
           description: "Status 422"
           schema:
             type: "object"
+            description: "errors with array of error objects"
           examples:
-            application/json: "{\n    \"errors\": {\n        \"reset_password_token\"\
-              : [\n            \"is invalid\"\n        ]\n    }\n}"
+            application/vnd.api+json: "{\n    \"errors\": {\n        \"email\": [\n\
+              \            \"has already been taken\"\n        ]\n    }\n}"
       security:
-      - API Headers: []
+      - JSONAPI: []
+  /invitation:
+    post:
+      tags:
+      - "Authentication"
+      summary: "Accept Invite"
+      description: "Accepts invitation and creates the users password, logging them\
+        \ in"
+      consumes: []
+      parameters:
+      - name: "Accept"
+        in: "header"
+        required: true
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: true
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+        x-examples:
+          application/vnd.api+json: " {\n    \"user\": {\n         \"invitation_token\"\
+            : \"sc46MX7-jzoo9N5qtL6y\",\n         \"password\": \"newpassword\",\n\
+            \         \"password_confirmation\": \"newpassword\",\n         \"name\"\
+            : \"kariuki gathitu\"\n    }\n}\n"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            type: "object"
+          examples:
+            application/vnd.api+json: "{\n    \"data\": {\n        \"id\": 116,\n\
+              \        \"type\": \"users\",\n        \"attributes\": {\n         \
+              \   \"name\": \"John Kilometer\",\n            \"email\": \"kili@polo10.com\"\
+              ,\n            \"created_at\": \"2017-12-21T12:57:43.581Z\"\n      \
+              \  }\n    }\n}"
+          headers:
+            Authorization:
+              type: "string"
+              x-example: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJhNGI1MWNmYS0xOTg1LTQxNjktODFhYi03Yzk5NzUwZmRkM2EiLCJzdWIiOiIxMTYiLCJzY3AiOiJ1c2VyIiwiYXVkIjpudWxsLCJpYXQiOjE1MTU1OTI4MTMsImV4cCI6MTUxNTU5NjQxM30.q6q1ZMO6PqGDQWfTSM2UpvLraLgbDJ_M3vgDAcuxNS0"
+            Access-Control-Expose-Headers:
+              type: "string"
+              x-example: "Authorization"
+      security:
+      - JSONAPI: []
   /confirmation:
     get:
       tags:
@@ -175,44 +196,170 @@ paths:
         required: false
         type: "string"
         x-example: "987897f987f98ds7affa"
+      - name: "Accept"
+        in: "header"
+        required: true
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: true
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
       responses:
-        204:
-          description: "Status 204"
+        200:
+          description: "Status 200"
+          schema:
+            type: "object"
+          examples:
+            application/vnd.api+json: "{\n    \"data\": {\n        \"id\": 115,\n\
+              \        \"type\": \"users\",\n        \"attributes\": {\n         \
+              \   \"name\": \"John Rambososo\",\n            \"email\": \"kili@polo21.com\"\
+              ,\n            \"created_at\": \"2017-12-21T11:57:26.989Z\"\n      \
+              \  }\n    }\n}"
       security:
-      - API Headers: []
+      - JSONAPI: []
     post:
       tags:
       - "Authentication"
       summary: "Resend confirmation"
       consumes: []
       parameters:
+      - name: "Accept"
+        in: "header"
+        required: true
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: true
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
       - name: "body"
         in: "body"
         required: true
         schema:
           type: "object"
         x-examples:
-          application/json: " {\n    \"user\": {\n         \"email\": \"kili@polo9.com\"\
+          application/vnd.api+json: " {\n    \"user\": {\n         \"email\": \"kili@polo9.com\"\
             \n    }\n}\n"
       responses:
         204:
           description: "Status 204"
       security:
-      - API Headers: []
-  /invitation:
+      - JSONAPI: []
+  /password:
     post:
       tags:
       - "Authentication"
-      summary: "Invite User"
+      summary: "Reset Password Request"
+      description: "Reset password for certain email"
       consumes: []
       parameters:
+      - name: "Accept"
+        in: "header"
+        required: true
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: true
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
       - name: "body"
         in: "body"
         required: true
         schema:
           type: "object"
         x-examples:
-          application/json: " {\n    \"user\": {\n         \"email\": \"john@pauljohn.com\"\
+          application/vnd.api+json: "{\n\t\"user\" :\n\t{\n\t\t\"email\":\"kili@polo10.com\"\
+            \n\t}\n}"
+      responses:
+        204:
+          description: "Status 204"
+      security:
+      - JSONAPI: []
+    patch:
+      tags:
+      - "Authentication"
+      summary: "Reset password"
+      description: "Update the password for a given reset request"
+      consumes: []
+      parameters:
+      - name: "Accept"
+        in: "header"
+        required: true
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: true
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+        x-examples:
+          application/vnd.api+json: "{\n\t\"user\" :\n\t{\n\t\t\"password\":\"newpassword\"\
+            ,\n\t\t\"password_confirmation\":\"newpassword\",\n\t\t\"reset_password_token\"\
+            : \"htMbxyg6hG1icnPx6HpS\"\n\t}\n}"
+      responses:
+        204:
+          description: "Status 204"
+        422:
+          description: "Status 422"
+          schema:
+            type: "object"
+          examples:
+            application/vnd.api+json: "{\n    \"errors\": {\n        \"reset_password_token\"\
+              : [\n            \"is invalid\"\n        ]\n    }\n}"
+      security:
+      - JSONAPI: []
+  /users/invitation:
+    post:
+      tags:
+      - "Users"
+      summary: "Invite user"
+      description: "Creates a user and sends and invitation to their email. returns\
+        \ invited user"
+      consumes: []
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Should contain the JWT token.\n                Format of the\
+          \ value is : Bearer $JWT_TOKEN"
+        x-example: "Bearer xxxxxxxxx.yyyyyyyyyy.zzzzzzzzz"
+      - name: "Accept"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+        x-examples:
+          application/vnd.api+json: " {\n    \"user\": {\n         \"email\": \"john@pauljohn.com\"\
             ,\n         \"name\" : \"John Paul\",\n         \"mobile_no\":\"0722334455\"\
             \n    }\n}\n"
       responses:
@@ -221,17 +368,32 @@ paths:
           schema:
             type: "object"
           examples:
-            application/json: "{\n    \"data\": {\n        \"id\": 147,\n        \"\
-              type\": \"users\",\n        \"attributes\": {\n            \"name\"\
-              : \"John Paul\",\n            \"email\": \"john@pauljohn.com\",\n  \
-              \          \"created_at\": \"2018-01-09T13:54:21.343Z\"\n        }\n\
-              \    }\n}"
-    patch:
+            application/vnd.api+json: "{\n    \"data\": {\n        \"id\": 147,\n\
+              \        \"type\": \"users\",\n        \"attributes\": {\n         \
+              \   \"name\": \"John Paul\",\n            \"email\": \"john@pauljohn.com\"\
+              ,\n            \"created_at\": \"2018-01-09T13:54:21.343Z\"\n      \
+              \  }\n    }\n}"
+  /users/sign_out:
+    delete:
       tags:
-      - "Authentication"
-      summary: "Accept Invite"
-      description: "Accepts invitation and creates the users password, logging them\
-        \ in"
+      - "Users"
+      summary: "Sign out"
+      description: "Sign out"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Active JWT token"
+        x-example: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIwZGE3Y2E0Yy1lMTViLTQ5ZDUtODBiNy1hNjZmMTAxOWIyN2IiLCJmb28iOiJiYXIiLCJzdWIiOiIxIiwic2NwIjoidXNlciIsImF1ZCI6bnVsbCwiaWF0IjoxNTEzNzY3MDA3LCJleHAiOjE1MTM3NzA2MDd9.dnjKmusPb7ku-VY97pf71DV0bYSGdyjjKjJJUoUBV7s"
+      responses:
+        204:
+          description: "Status 204"
+      security:
+      - JWT: []
+  /users/password:
+    patch:
+      summary: "Change Password"
       consumes: []
       parameters:
       - name: "body"
@@ -240,54 +402,307 @@ paths:
         schema:
           type: "object"
         x-examples:
-          application/json: " {\n    \"user\": {\n         \"invitation_token\": \"\
-            sc46MX7-jzoo9N5qtL6y\",\n         \"password\": \"newpassword\",\n   \
-            \      \"password_confirmation\": \"newpassword\",\n         \"name\"\
-            : \"kariuki gathitu\",\n         \"mobile_no\": \"0733737273\"\n    }\n\
-            }\n"
+          application/vnd.api+json: " {\n    \"user\": {\n         \"password\": \"\
+            new_password\",\n         \"password_confirmation\" : \"new_password\"\
+            ,\n         \"current_password\":\"old_password\"\n    }\n}\n"
+      responses:
+        204:
+          description: "Status 204"
+  /users:
+    get:
+      tags:
+      - "Users"
+      summary: "Get all users"
+      description: "Retrieves only users in the allowed logged in users scope"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Should contain the JWT token.\n                Format of the\
+          \ value is : Bearer $JWT_TOKEN"
+        x-example: "Bearer xxxxxxxxx.yyyyyyyyyy.zzzzzzzzz"
+      - name: "Accept"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
       responses:
         200:
           description: "Status 200"
           schema:
             type: "object"
           examples:
-            application/json: "{\n    \"data\": {\n        \"id\": 111,\n        \"\
-              type\": \"users\",\n        \"attributes\": {\n            \"name\"\
-              : \"John Kilometer\",\n            \"email\": \"kili@polo5.com\",\n\
-              \            \"created_at\": \"2017-12-21T11:22:43.218Z\"\n        }\n\
-              \    }\n}"
-      security:
-      - API Headers: []
+            application/vnd.api+json: "{\n    \"data\": [\n        {\n           \
+              \ \"id\": \"93\",\n            \"type\": \"users\",\n            \"\
+              links\": {\n                \"self\": \"http://localhost:3000/users/93\"\
+              \n            },\n            \"attributes\": {\n                \"\
+              name\": \"John Ramboso\",\n                \"email\": \"kgathi2@gmail.com\"\
+              ,\n                \"mobile-no\": \"08384838434\",\n               \
+              \ \"birth-date\": \"1990-12-12\",\n                \"avatar\": \"avatar-url2\"\
+              ,\n                \"address-data\": {\n                    \"corner\"\
+              : {\n                        \"that\": \"one\"\n                   \
+              \ },\n                    \"street\": \"temple road\"\n            \
+              \    },\n                \"age\": 28\n            }\n        },\n  \
+              \      {\n            \"id\": \"104\",\n            \"type\": \"users\"\
+              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/104\"\
+              \n            },\n            \"attributes\": {\n                \"\
+              name\": \"John Kilometer\",\n                \"email\": \"kili@polo3.com\"\
+              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
+              : null,\n                \"avatar\": null,\n                \"address-data\"\
+              : null,\n                \"age\": null\n            }\n        },\n\
+              \        {\n            \"id\": \"105\",\n            \"type\": \"users\"\
+              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/105\"\
+              \n            },\n            \"attributes\": {\n                \"\
+              name\": \"John Kilometer\",\n                \"email\": \"kili@polo4.com\"\
+              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
+              : null,\n                \"avatar\": null,\n                \"address-data\"\
+              : null,\n                \"age\": null\n            }\n        },\n\
+              \        {\n            \"id\": \"111\",\n            \"type\": \"users\"\
+              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/111\"\
+              \n            },\n            \"attributes\": {\n                \"\
+              name\": \"John Kilometer\",\n                \"email\": \"kili@polo5.com\"\
+              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
+              : null,\n                \"avatar\": null,\n                \"address-data\"\
+              : null,\n                \"age\": null\n            }\n        },\n\
+              \        {\n            \"id\": \"112\",\n            \"type\": \"users\"\
+              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/112\"\
+              \n            },\n            \"attributes\": {\n                \"\
+              name\": \"John Kilometer\",\n                \"email\": \"kili@polo6.com\"\
+              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
+              : null,\n                \"avatar\": null,\n                \"address-data\"\
+              : null,\n                \"age\": null\n            }\n        },\n\
+              \        {\n            \"id\": \"113\",\n            \"type\": \"users\"\
+              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/113\"\
+              \n            },\n            \"attributes\": {\n                \"\
+              name\": \"John Kilometer\",\n                \"email\": \"kili@polo7.com\"\
+              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
+              : null,\n                \"avatar\": null,\n                \"address-data\"\
+              : null,\n                \"age\": null\n            }\n        },\n\
+              \        {\n            \"id\": \"114\",\n            \"type\": \"users\"\
+              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/114\"\
+              \n            },\n            \"attributes\": {\n                \"\
+              name\": \"John Kilometer\",\n                \"email\": \"kili@polo8.com\"\
+              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
+              : null,\n                \"avatar\": null,\n                \"address-data\"\
+              : null,\n                \"age\": null\n            }\n        },\n\
+              \        {\n            \"id\": \"115\",\n            \"type\": \"users\"\
+              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/115\"\
+              \n            },\n            \"attributes\": {\n                \"\
+              name\": \"John Rambososo\",\n                \"email\": \"kili@polo9.com\"\
+              ,\n                \"mobile-no\": \"08384838434\",\n               \
+              \ \"birth-date\": \"1990-12-12\",\n                \"avatar\": \"avatar-url2\"\
+              ,\n                \"address-data\": {\n                    \"corner\"\
+              : {\n                        \"that\": \"one\"\n                   \
+              \ },\n                    \"street\": \"temple road\"\n            \
+              \    },\n                \"age\": 28\n            }\n        },\n  \
+              \      {\n            \"id\": \"116\",\n            \"type\": \"users\"\
+              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/116\"\
+              \n            },\n            \"attributes\": {\n                \"\
+              name\": \"John Kilometer\",\n                \"email\": \"kili@polo10.com\"\
+              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
+              : null,\n                \"avatar\": null,\n                \"address-data\"\
+              : null,\n                \"age\": null\n            }\n        },\n\
+              \        {\n            \"id\": \"136\",\n            \"type\": \"users\"\
+              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/136\"\
+              \n            },\n            \"attributes\": {\n                \"\
+              name\": \"John Rambo\",\n                \"email\": \"kili@polo.com\"\
+              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
+              : null,\n                \"avatar\": null,\n                \"address-data\"\
+              : null,\n                \"age\": null\n            }\n        },\n\
+              \        {\n            \"id\": \"137\",\n            \"type\": \"users\"\
+              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/137\"\
+              \n            },\n            \"attributes\": {\n                \"\
+              name\": \"John Rambo\",\n                \"email\": \"kili@polol.com\"\
+              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
+              : null,\n                \"avatar\": null,\n                \"address-data\"\
+              : null,\n                \"age\": null\n            }\n        },\n\
+              \        {\n            \"id\": \"138\",\n            \"type\": \"users\"\
+              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/138\"\
+              \n            },\n            \"attributes\": {\n                \"\
+              name\": \"John Rambo\",\n                \"email\": \"kili@polosl.com\"\
+              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
+              : null,\n                \"avatar\": null,\n                \"address-data\"\
+              : null,\n                \"age\": null\n            }\n        },\n\
+              \        {\n            \"id\": \"139\",\n            \"type\": \"users\"\
+              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/139\"\
+              \n            },\n            \"attributes\": {\n                \"\
+              name\": \"John Rambo\",\n                \"email\": \"kili@polosl3.com\"\
+              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
+              : null,\n                \"avatar\": null,\n                \"address-data\"\
+              : null,\n                \"age\": null\n            }\n        },\n\
+              \        {\n            \"id\": \"140\",\n            \"type\": \"users\"\
+              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/140\"\
+              \n            },\n            \"attributes\": {\n                \"\
+              name\": null,\n                \"email\": \"kili@outhth.com\",\n   \
+              \             \"mobile-no\": null,\n                \"birth-date\":\
+              \ null,\n                \"avatar\": null,\n                \"address-data\"\
+              : null,\n                \"age\": null\n            }\n        },\n\
+              \        {\n            \"id\": \"141\",\n            \"type\": \"users\"\
+              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/141\"\
+              \n            },\n            \"attributes\": {\n                \"\
+              name\": null,\n                \"email\": \"kili@outhsth.com\",\n  \
+              \              \"mobile-no\": null,\n                \"birth-date\"\
+              : null,\n                \"avatar\": null,\n                \"address-data\"\
+              : null,\n                \"age\": null\n            }\n        },\n\
+              \        {\n            \"id\": \"142\",\n            \"type\": \"users\"\
+              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/142\"\
+              \n            },\n            \"attributes\": {\n                \"\
+              name\": null,\n                \"email\": \"kili@outhssth.com\",\n \
+              \               \"mobile-no\": null,\n                \"birth-date\"\
+              : null,\n                \"avatar\": null,\n                \"address-data\"\
+              : null,\n                \"age\": null\n            }\n        },\n\
+              \        {\n            \"id\": \"143\",\n            \"type\": \"users\"\
+              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/143\"\
+              \n            },\n            \"attributes\": {\n                \"\
+              name\": null,\n                \"email\": \"kili@outhsssth.com\",\n\
+              \                \"mobile-no\": null,\n                \"birth-date\"\
+              : null,\n                \"avatar\": null,\n                \"address-data\"\
+              : null,\n                \"age\": null\n            }\n        },\n\
+              \        {\n            \"id\": \"144\",\n            \"type\": \"users\"\
+              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/144\"\
+              \n            },\n            \"attributes\": {\n                \"\
+              name\": \"kil pdp lfd\",\n                \"email\": \"kili@oh.com\"\
+              ,\n                \"mobile-no\": \"0292332232s3233\",\n           \
+              \     \"birth-date\": null,\n                \"avatar\": null,\n   \
+              \             \"address-data\": null,\n                \"age\": null\n\
+              \            }\n        },\n        {\n            \"id\": \"146\",\n\
+              \            \"type\": \"users\",\n            \"links\": {\n      \
+              \          \"self\": \"http://localhost:3000/users/146\"\n         \
+              \   },\n            \"attributes\": {\n                \"name\": \"\
+              kariuki gathitu\",\n                \"email\": \"john@paul.com\",\n\
+              \                \"mobile-no\": \"0733737273\",\n                \"\
+              birth-date\": null,\n                \"avatar\": null,\n           \
+              \     \"address-data\": null,\n                \"age\": null\n     \
+              \       }\n        },\n        {\n            \"id\": \"147\",\n   \
+              \         \"type\": \"users\",\n            \"links\": {\n         \
+              \       \"self\": \"http://localhost:3000/users/147\"\n            },\n\
+              \            \"attributes\": {\n                \"name\": \"John Paul\"\
+              ,\n                \"email\": \"john@pauljohn.com\",\n             \
+              \   \"mobile-no\": \"0722334455\",\n                \"birth-date\":\
+              \ null,\n                \"avatar\": null,\n                \"address-data\"\
+              : null,\n                \"age\": null\n            }\n        },\n\
+              \        {\n            \"id\": \"148\",\n            \"type\": \"users\"\
+              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/148\"\
+              \n            },\n            \"attributes\": {\n                \"\
+              name\": \"John Kilometer\",\n                \"email\": \"kili@polo11.com\"\
+              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
+              : null,\n                \"avatar\": null,\n                \"address-data\"\
+              : null,\n                \"age\": null\n            }\n        },\n\
+              \        {\n            \"id\": \"149\",\n            \"type\": \"users\"\
+              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/149\"\
+              \n            },\n            \"attributes\": {\n                \"\
+              name\": \"John Kilometer\",\n                \"email\": \"kili@polo12.com\"\
+              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
+              : null,\n                \"avatar\": null,\n                \"address-data\"\
+              : null,\n                \"age\": null\n            }\n        },\n\
+              \        {\n            \"id\": \"150\",\n            \"type\": \"users\"\
+              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/150\"\
+              \n            },\n            \"attributes\": {\n                \"\
+              name\": \"John Kilometer\",\n                \"email\": \"kili@polo13.com\"\
+              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
+              : null,\n                \"avatar\": null,\n                \"address-data\"\
+              : null,\n                \"age\": null\n            }\n        },\n\
+              \        {\n            \"id\": \"183\",\n            \"type\": \"users\"\
+              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/183\"\
+              \n            },\n            \"attributes\": {\n                \"\
+              name\": \"John Kilometer\",\n                \"email\": \"kili@polo14.com\"\
+              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
+              : null,\n                \"avatar\": null,\n                \"address-data\"\
+              : null,\n                \"age\": null\n            }\n        },\n\
+              \        {\n            \"id\": \"184\",\n            \"type\": \"users\"\
+              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/184\"\
+              \n            },\n            \"attributes\": {\n                \"\
+              name\": \"John Kilometer\",\n                \"email\": \"kili@polo15.com\"\
+              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
+              : null,\n                \"avatar\": null,\n                \"address-data\"\
+              : null,\n                \"age\": null\n            }\n        },\n\
+              \        {\n            \"id\": \"185\",\n            \"type\": \"users\"\
+              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/185\"\
+              \n            },\n            \"attributes\": {\n                \"\
+              name\": \"John Kilometer\",\n                \"email\": \"kili@polo16.com\"\
+              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
+              : null,\n                \"avatar\": null,\n                \"address-data\"\
+              : null,\n                \"age\": null\n            }\n        },\n\
+              \        {\n            \"id\": \"218\",\n            \"type\": \"users\"\
+              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/218\"\
+              \n            },\n            \"attributes\": {\n                \"\
+              name\": \"John Kilometer\",\n                \"email\": \"kili@polo1.com\"\
+              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
+              : null,\n                \"avatar\": null,\n                \"address-data\"\
+              : null,\n                \"age\": null\n            }\n        }\n \
+              \   ]\n}"
   /users/{id}:
     get:
       tags:
       - "Users"
-      summary: "Get user data"
-      parameters: []
+      summary: "Get user"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Should contain the JWT token.\n                Format of the\
+          \ value is : Bearer $JWT_TOKEN"
+        x-example: "Bearer xxxxxxxxx.yyyyyyyyyy.zzzzzzzzz"
+      - name: "Accept"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
       responses:
         200:
           description: "Status 200"
           schema:
             type: "object"
           examples:
-            application/json: "{\n\t\"data\": {\n\t\t\"id\": 44,\n\t\t\"type\": \"\
-              users\",\n\t\t\"attributes\": {\n\t\t\t\"jti\": \"0da7ca4c-e15b-49d5-80b7-a66f1019b27b\"\
-              ,\n\t\t\t\"first_name\": \"Kiki\",\n\t\t\t\"last_name\": \"Lolo\",\n\
-              \t\t\t\"birth_date\": \"01-01-1965\",\n\t\t\t\"mobile_no\": 854576873478,\n\
-              \t\t\t\"avatar\": null,\n\t\t\t\"address_data\": \"71 Pilgrim Avenue\
-              \ Chevy Chase, MD 20815\",\n\t\t\t\"pin_no\": null,\n\t\t\t\"invitation\"\
-              : null,\n\t\t\t\"invited_by_id\": null,\n\t\t\t\"caregiver_type\": \"\
-              null\",\n\t\t\t\"position\": \"Caregiver II\",\n\t\t\t\"role\": null,\n\
-              \t\t\t\"data\": null,\n\t\t\t\"status\": null,\n\t\t\t\"lock_version\"\
-              : 3,\n\t\t\t\"created_at\": \"2017-12-20T09:48:13.023Z\",\n\t\t\t\"\
-              updated_at\": \"2017-12-20T10:50:07.625Z\",\n\t\t\t\"email\": \"kiki@lolo11.com\"\
-              ,\n\t\t\t\"created_at\": \"2017-12-14T14:12:31.086Z\"\n\t\t}\n\t}\n}"
+            application/vnd.api+json: "{\n    \"data\": {\n        \"id\": \"104\"\
+              ,\n        \"type\": \"users\",\n        \"links\": {\n            \"\
+              self\": \"http://localhost:3000/users/104\"\n        },\n        \"\
+              attributes\": {\n            \"name\": \"John Kilometer\",\n       \
+              \     \"email\": \"kili@polo3.com\",\n            \"mobile-no\": null,\n\
+              \            \"birth-date\": null,\n            \"avatar\": null,\n\
+              \            \"address-data\": null,\n            \"age\": null\n  \
+              \      }\n    }\n}"
     patch:
       tags:
       - "Users"
-      summary: "Update user data"
+      summary: "Update user"
       consumes: []
       parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Should contain the JWT token.\n                Format of the\
+          \ value is : Bearer $JWT_TOKEN"
+        x-example: "Bearer xxxxxxxxx.yyyyyyyyyy.zzzzzzzzz"
+      - name: "Accept"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
       - name: "body"
         in: "body"
         required: true
@@ -297,29 +712,28 @@ paths:
             data:
               $ref: "#/definitions/User"
         x-examples:
-          application/json: "{\n\t\"data\": {\n\t\t\"id\": 44,\n\t\t\"type\": \"users\"\
-            ,\n\t\t\"attributes\": {\n\t\t\t\"first_name\": null,\n\t\t\t\"last_name\"\
-            : null,\n\t\t\t\"birth_date\": null,\n\t\t\t\"mobile_no\": null,\n\t\t\
-            \t\"created_at\": \"2017-12-20T09:48:13.023Z\",\n\t\t\t\"updated_at\"\
-            : \"2017-12-20T10:50:07.625Z\",\n\t\t\t\"email\": \"kiki@lolo11.com\"\
-            ,\n\t\t\t\"created_at\": \"2017-12-14T14:12:31.086Z\"\n\t\t}\n\t}\n}"
+          application/vnd.api+json: "{\n    \"data\": {\n    \t\"id\": 115,\n    \
+            \    \"type\": \"users\",\n        \"attributes\": {\n            \"birth-date\"\
+            :\"1990/12/12\",\n            \"avatar\": \"avatar-url2\",\n         \
+            \   \"address-data\": {\n            \t\"street\":\"temple road\",\n \
+            \           \t\"corner\":{\n            \t\t\"that\":\"one\"\n       \
+            \     \t}\n            }\n        }\n    }\n}"
       responses:
         202:
           description: "Modification accepted"
           schema:
             type: "object"
           examples:
-            application/json: "{\n\t\"data\": {\n\t\t\"id\": 44,\n\t\t\"type\": \"\
-              users\",\n\t\t\"attributes\": {\n\t\t\t\"jti\": \"0da7ca4c-e15b-49d5-80b7-a66f1019b27b\"\
-              ,\n\t\t\t\"first_name\": null,\n\t\t\t\"last_name\": null,\n\t\t\t\"\
-              birth_date\": null,\n\t\t\t\"mobile_no\": null,\n\t\t\t\"avatar\": null,\n\
-              \t\t\t\"address_data\": null,\n\t\t\t\"pin_no\": null,\n\t\t\t\"invitation\"\
-              : null,\n\t\t\t\"invited_by_id\": null,\n\t\t\t\"caregiver_type\": null,\n\
-              \t\t\t\"position\": null,\n\t\t\t\"role\": null,\n\t\t\t\"data\": null,\n\
-              \t\t\t\"status\": null,\n\t\t\t\"lock_version\": 3,\n\t\t\t\"created_at\"\
-              : \"2017-12-20T09:48:13.023Z\",\n\t\t\t\"updated_at\": \"2017-12-20T10:50:07.625Z\"\
-              ,\n\t\t\t\"email\": \"kiki@lolo11.com\",\n\t\t\t\"created_at\": \"2017-12-14T14:12:31.086Z\"\
-              \n\t\t}\n\t}\n}"
+            application/vnd.api+json: "{\n    \"data\": {\n        \"id\": \"115\"\
+              ,\n        \"type\": \"users\",\n        \"links\": {\n            \"\
+              self\": \"http://localhost:3000/users/115\"\n        },\n        \"\
+              attributes\": {\n            \"name\": \"John Rambososo\",\n       \
+              \     \"email\": \"kili@polo9.com\",\n            \"mobile-no\": \"\
+              08384838434\",\n            \"birth-date\": \"1990-12-12\",\n      \
+              \      \"avatar\": \"avatar-url2\",\n            \"address-data\": {\n\
+              \                \"street\": \"temple road\",\n                \"corner\"\
+              : {\n                    \"that\": \"one\"\n                }\n    \
+              \        },\n            \"age\": 28\n        }\n    }\n}"
     parameters:
     - name: "id"
       in: "path"
@@ -331,7 +745,26 @@ paths:
       - "Users"
       - "Pending"
       summary: "Switch or toggle user states"
-      parameters: []
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Should contain the JWT token.\n                Format of the\
+          \ value is : Bearer $JWT_TOKEN"
+        x-example: "Bearer xxxxxxxxx.yyyyyyyyyy.zzzzzzzzz"
+      - name: "Accept"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
       responses:
         200:
           description: "Status 200"
@@ -346,6 +779,45 @@ paths:
       in: "path"
       required: true
       type: "string"
+  /users/whoami:
+    get:
+      tags:
+      - "Users"
+      summary: "Get Current User"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Should contain the JWT token.\n                Format of the\
+          \ value is : Bearer $JWT_TOKEN"
+        x-example: "Bearer xxxxxxxxx.yyyyyyyyyy.zzzzzzzzz"
+      - name: "Accept"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            type: "object"
+          examples:
+            application/vnd.api+json: "{\n    \"data\": {\n        \"id\": \"104\"\
+              ,\n        \"type\": \"users\",\n        \"links\": {\n            \"\
+              self\": \"http://localhost:3000/users/104\"\n        },\n        \"\
+              attributes\": {\n            \"name\": \"John Kilometer\",\n       \
+              \     \"email\": \"kili@polo3.com\",\n            \"mobile-no\": null,\n\
+              \            \"birth-date\": null,\n            \"avatar\": null,\n\
+              \            \"address-data\": null,\n            \"age\": null\n  \
+              \      }\n    }\n}"
   /documents:
     post:
       tags:
@@ -353,19 +825,38 @@ paths:
       summary: "Create document"
       consumes: []
       parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Should contain the JWT token.\n                Format of the\
+          \ value is : Bearer $JWT_TOKEN"
+        x-example: "Bearer xxxxxxxxx.yyyyyyyyyy.zzzzzzzzz"
+      - name: "Accept"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
       - name: "body"
         in: "body"
         required: true
         schema:
           type: "object"
         x-examples:
-          application/json: "{\n\t\"data\": {\n\t\t\"type\": \"documents\",\n\t\t\"\
-            id\": \"09f9a8sf08das09f8d\",\n\t\t\"attributes\": {\n\t\t\t\"name\":\
-            \ \"Driving license\",\n\t\t\t\"document_id\": \"DL8989843\",\n\t\t\t\"\
-            expiry_date\": \"2017-12-20\",\n\t\t\t\"referee\": {\n\t\t\t\t\"name\"\
-            : \"John Scot\",\n\t\t\t\t\"role\": \"instructor\"\n\t\t\t},\n\t\t\t\"\
-            data\": {\n\t\t\t\t\"files\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"name\":\"\
-            dl\",\n\t\t\t\t\t\t\"url\": \"firebasestore://user/1/09f9a8sf08das09f8d\"\
+          application/vnd.api+json: "{\n\t\"data\": {\n\t\t\"type\": \"documents\"\
+            ,\n\t\t\"id\": \"09f9a8sf08das09f8d\",\n\t\t\"attributes\": {\n\t\t\t\"\
+            name\": \"Driving license\",\n\t\t\t\"document_id\": \"DL8989843\",\n\t\
+            \t\t\"expiry_date\": \"2017-12-20\",\n\t\t\t\"referee\": {\n\t\t\t\t\"\
+            name\": \"John Scot\",\n\t\t\t\t\"role\": \"instructor\"\n\t\t\t},\n\t\
+            \t\t\"data\": {\n\t\t\t\t\"files\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"name\"\
+            :\"dl\",\n\t\t\t\t\t\t\"url\": \"firebasestore://user/1/09f9a8sf08das09f8d\"\
             \n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t}\n\t\t}\n\t}\n}\n\n"
       responses:
         200:
@@ -373,20 +864,39 @@ paths:
           schema:
             type: "object"
           examples:
-            application/json: "{\n\t\"data\": {\n\t\t\"type\": \"documents\",\n\t\t\
-              \"id\": \"09f9a8sf08das09f8d\",\n\t\t\"attributes\": {\n\t\t\t\"name\"\
-              : \"Driving license\",\n\t\t\t\"document_id\": \"DL8989843\",\n\t\t\t\
-              \"expiry_date\": \"2017-12-20\",\n\t\t\t\"referee\": {\n\t\t\t\t\"name\"\
-              : \"John Scot\",\n\t\t\t\t\"role\": \"instructor\"\n\t\t\t},\n\t\t\t\
-              \"data\": {\n\t\t\t\t\"files\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"name\"\
-              :\"dl\",\n\t\t\t\t\t\t\"url\": \"firebasestore://user/1/09f9a8sf08das09f8d\"\
+            application/vnd.api+json: "{\n\t\"data\": {\n\t\t\"type\": \"documents\"\
+              ,\n\t\t\"id\": \"09f9a8sf08das09f8d\",\n\t\t\"attributes\": {\n\t\t\t\
+              \"name\": \"Driving license\",\n\t\t\t\"document_id\": \"DL8989843\"\
+              ,\n\t\t\t\"expiry_date\": \"2017-12-20\",\n\t\t\t\"referee\": {\n\t\t\
+              \t\t\"name\": \"John Scot\",\n\t\t\t\t\"role\": \"instructor\"\n\t\t\
+              \t},\n\t\t\t\"data\": {\n\t\t\t\t\"files\": [\n\t\t\t\t\t{\n\t\t\t\t\
+              \t\t\"name\":\"dl\",\n\t\t\t\t\t\t\"url\": \"firebasestore://user/1/09f9a8sf08das09f8d\"\
               \n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t}\n\t\t}\n\t}\n}\n\n"
   /documents/{id}:
     get:
       tags:
       - "Documents"
       summary: "Show document"
-      parameters: []
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Should contain the JWT token.\n                Format of the\
+          \ value is : Bearer $JWT_TOKEN"
+        x-example: "Bearer xxxxxxxxx.yyyyyyyyyy.zzzzzzzzz"
+      - name: "Accept"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
       responses:
         200:
           description: "Status 200"
@@ -395,7 +905,26 @@ paths:
       - "Documents"
       summary: "Delete Document"
       description: "Delete Document"
-      parameters: []
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Should contain the JWT token.\n                Format of the\
+          \ value is : Bearer $JWT_TOKEN"
+        x-example: "Bearer xxxxxxxxx.yyyyyyyyyy.zzzzzzzzz"
+      - name: "Accept"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
       responses:
         200:
           description: "Status 200"
@@ -405,28 +934,47 @@ paths:
       summary: "Edit document"
       consumes: []
       parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Should contain the JWT token.\n                Format of the\
+          \ value is : Bearer $JWT_TOKEN"
+        x-example: "Bearer xxxxxxxxx.yyyyyyyyyy.zzzzzzzzz"
+      - name: "Accept"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
       - name: "body"
         in: "body"
         required: true
         schema:
           type: "object"
         x-examples:
-          application/json: "{\n\t\"data\": {\n\t\t\"type\": \"documents\",\n\t\t\"\
-            id\": \"09f9a8sf08das09f8d\",\n\t\t\"attributes\": {\n\t\t\t\"expiry_date\"\
-            : \"2017-12-20\",\n\t\t}\n\t}\n}\n\n"
+          application/vnd.api+json: "{\n\t\"data\": {\n\t\t\"type\": \"documents\"\
+            ,\n\t\t\"id\": \"09f9a8sf08das09f8d\",\n\t\t\"attributes\": {\n\t\t\t\"\
+            expiry_date\": \"2017-12-20\",\n\t\t}\n\t}\n}\n\n"
       responses:
         200:
           description: "Status 200"
           schema:
             type: "object"
           examples:
-            application/json: "{\n\t\"data\": {\n\t\t\"type\": \"documents\",\n\t\t\
-              \"id\": \"09f9a8sf08das09f8d\",\n\t\t\"attributes\": {\n\t\t\t\"name\"\
-              : \"Driving license\",\n\t\t\t\"document_id\": \"DL8989843\",\n\t\t\t\
-              \"expiry_date\": \"2017-12-20\",\n\t\t\t\"referee\": {\n\t\t\t\t\"name\"\
-              : \"John Scot\",\n\t\t\t\t\"role\": \"instructor\"\n\t\t\t},\n\t\t\t\
-              \"data\": {\n\t\t\t\t\"files\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"name\"\
-              :\"dl\",\n\t\t\t\t\t\t\"url\": \"firebasestore://user/1/09f9a8sf08das09f8d\"\
+            application/vnd.api+json: "{\n\t\"data\": {\n\t\t\"type\": \"documents\"\
+              ,\n\t\t\"id\": \"09f9a8sf08das09f8d\",\n\t\t\"attributes\": {\n\t\t\t\
+              \"name\": \"Driving license\",\n\t\t\t\"document_id\": \"DL8989843\"\
+              ,\n\t\t\t\"expiry_date\": \"2017-12-20\",\n\t\t\t\"referee\": {\n\t\t\
+              \t\t\"name\": \"John Scot\",\n\t\t\t\t\"role\": \"instructor\"\n\t\t\
+              \t},\n\t\t\t\"data\": {\n\t\t\t\t\"files\": [\n\t\t\t\t\t{\n\t\t\t\t\
+              \t\t\"name\":\"dl\",\n\t\t\t\t\t\t\"url\": \"firebasestore://user/1/09f9a8sf08das09f8d\"\
               \n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t}\n\t\t}\n\t}\n}\n\n"
     parameters:
     - name: "id"
@@ -445,6 +993,25 @@ paths:
         in: "query"
         required: false
         type: "string"
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Should contain the JWT token.\n                Format of the\
+          \ value is : Bearer $JWT_TOKEN"
+        x-example: "Bearer xxxxxxxxx.yyyyyyyyyy.zzzzzzzzz"
+      - name: "Accept"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
       responses:
         200:
           description: "Status 200"
@@ -493,7 +1060,26 @@ paths:
       - "Assets"
       summary: "Get users files"
       description: "Get file for user"
-      parameters: []
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Should contain the JWT token.\n                Format of the\
+          \ value is : Bearer $JWT_TOKEN"
+        x-example: "Bearer xxxxxxxxx.yyyyyyyyyy.zzzzzzzzz"
+      - name: "Accept"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
       responses:
         200:
           description: "Status 200"
@@ -502,7 +1088,26 @@ paths:
       - "Assets"
       summary: "Upload users files"
       description: "Upload file for user"
-      parameters: []
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Should contain the JWT token.\n                Format of the\
+          \ value is : Bearer $JWT_TOKEN"
+        x-example: "Bearer xxxxxxxxx.yyyyyyyyyy.zzzzzzzzz"
+      - name: "Accept"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
       responses:
         200:
           description: "Status 200"
@@ -511,7 +1116,26 @@ paths:
       - "Assets"
       summary: "Delete users files"
       description: "Delete file for user"
-      parameters: []
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Should contain the JWT token.\n                Format of the\
+          \ value is : Bearer $JWT_TOKEN"
+        x-example: "Bearer xxxxxxxxx.yyyyyyyyyy.zzzzzzzzz"
+      - name: "Accept"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
       responses:
         200:
           description: "Status 200"
@@ -520,7 +1144,26 @@ paths:
       - "Assets"
       summary: "Update users files"
       description: "Update new version of file. Uploads a new file and points to it"
-      parameters: []
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Should contain the JWT token.\n                Format of the\
+          \ value is : Bearer $JWT_TOKEN"
+        x-example: "Bearer xxxxxxxxx.yyyyyyyyyy.zzzzzzzzz"
+      - name: "Accept"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
       responses:
         200:
           description: "Status 200"
@@ -541,7 +1184,13 @@ paths:
       type: "string"
       x-example: "sa0df0f97ad0s9f7ds9"
 securityDefinitions:
-  API Headers:
+  JWT:
+    description: "Authorization with JWT Token passed as `authorization` header. See\
+      \ Headers section."
+    type: "apiKey"
+    name: "Authorization"
+    in: "header"
+  JSONAPI:
     type: "apiKey"
     name: "Accept"
     in: "header"
