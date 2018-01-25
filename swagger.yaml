@@ -359,9 +359,9 @@ paths:
         schema:
           type: "object"
         x-examples:
-          application/vnd.api+json: " {\n    \"user\": {\n         \"email\": \"john@pauljohn.com\"\
-            ,\n         \"name\" : \"John Paul\",\n         \"mobile_no\":\"0722334455\"\
-            \n    }\n}\n"
+          application/vnd.api+json: " {\n    \"user\": {\n         \"email\": \"kgathi2+101@gmail.com\"\
+            ,\n         \"name\" : \"Kariz makania\",\n         \"position\":\"caregiver\"\
+            ,\n         \"caregiver_type\" : \"caregiver\"\n    }\n}"
       responses:
         200:
           description: "Status 200"
@@ -684,6 +684,14 @@ paths:
       summary: "Update user"
       consumes: []
       parameters:
+      - name: "transition_to"
+        in: "query"
+        required: false
+        type: "string"
+        description: "for transitioning a user to the next state. runs validation\
+          \ related to that particular state. transition_to 'next' moves use to next\
+          \ state, otherwise explicitly define the state name"
+        x-example: "next"
       - name: "Authorization"
         in: "header"
         required: false
@@ -712,12 +720,12 @@ paths:
             data:
               $ref: "#/definitions/User"
         x-examples:
-          application/vnd.api+json: "{\n    \"data\": {\n    \t\"id\": 115,\n    \
-            \    \"type\": \"users\",\n        \"attributes\": {\n            \"birth-date\"\
-            :\"1990/12/12\",\n            \"avatar\": \"avatar-url2\",\n         \
-            \   \"address-data\": {\n            \t\"street\":\"temple road\",\n \
-            \           \t\"corner\":{\n            \t\t\"that\":\"one\"\n       \
-            \     \t}\n            }\n        }\n    }\n}"
+          application/vnd.api+json: "\n{\n    \"data\": {\n    \t\"id\": 115,\n  \
+            \      \"type\": \"users\",\n        \"attributes\": {\n            \"\
+            birth-date\":\"1990/12/12\",\n            \"avatar\": \"avatar-url2\"\
+            ,\n            \"address-data\": {\n            \t\"street\":\"temple\
+            \ road\",\n            \t\"corner\":{\n            \t\t\"that\":\"one\"\
+            \n            \t}\n            }\n        }\n    }\n}"
       responses:
         202:
           description: "Modification accepted"
