@@ -1,0 +1,104 @@
+{
+    "type": "object",
+    "properties": {
+        "string": {
+            "title" : "String",
+            "description": "String",
+            "type": "string",
+            "maxLength" : 12,
+            "minLength" : 3,
+            "pattern": "/ /"
+        },
+        "float": {
+            "title" : "Float",
+            "description": "Float",
+            "type": "number",
+            "minimum" : 0,
+            "exclusiveMinimum": 0,
+            "maximum" : 100,
+            "exclusiveMaximum" : 100
+        },
+        "integer": {
+            "title" : "Integer",
+            "description": "Integer",
+            "type": "integer",
+            "minimum" : 0,
+            "exclusiveMinimum": 0,
+            "maximum" : 100,
+            "exclusiveMaximum" : 100,
+            "multipleOf": 7
+        },
+        "datetime": {
+            "title" : "Date Time",
+            "description": "Date Time",
+            "type": "string",
+            "format": "date-time"
+        },
+        "email": {
+            "title" : "Email",
+            "description": "Email",
+            "type": "string",
+            "format": "email"
+        },
+        "hostname": {
+            "title" : "Hostname",
+            "description": "Hostname",
+            "type": "string",
+            "format": "hostname"
+        },
+        "ipv4": {
+            "title" : "IPv4",
+            "description": "IPv4",
+            "type": "string",
+            "format": "ipv4"
+        },
+        "ipv6": {
+            "title" : "IPv6",
+            "description": "IPv6",
+            "type": "string",
+            "format": "ipv6"
+        },
+        "uri": {
+            "title" : "uri",
+            "description": "uri",
+            "type": "string",
+            "format": "uri"
+        },
+        "single_select": {
+            "title" : "Choose one",
+            "description": "Single Select",
+            "type": "string",
+            "anyOf": [
+                {"enum": ["maryland"], "title": "Maryland"},
+                {"enum": ["virginia"], "title": "Virginia"}
+            ]
+        },
+        "multiple_select": {
+            "title" : "String",
+            "description": "Choose more that 1",
+            "type": "array",
+            "items": {
+                "anyOf": [
+                    {"enum": ["checkbox1"], "title": "Value #1"},
+                    {"enum": ["checkbox2"], "title": "Value #2"}
+                ]
+            },
+            "uniqueItems": true
+        },
+        "array_field": {
+            "title" : "String",
+            "description": "Array",
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "minItems": 1,
+            "maxItems": 5,
+            "uniqueItems": true
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "hostname"
+    ]
+}
