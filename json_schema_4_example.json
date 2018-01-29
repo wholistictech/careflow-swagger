@@ -1,6 +1,11 @@
 {
     "type": "object",
     "properties": {
+        "boolean": {
+            "title" : "boolean",
+            "description": "boolean",
+            "type": "boolean"
+        },
         "string": {
             "title" : "String",
             "description": "String",
