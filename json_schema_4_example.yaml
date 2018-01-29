@@ -63,7 +63,7 @@ properties:
     title: Choose one
     description: Single Select
     type: string
-    anyOf:
+    oneOf:
     - enum:
       - maryland
       title: Maryland
@@ -75,7 +75,8 @@ properties:
     description: Choose more that 1
     type: array
     items:
-      anyOf:
+      type: string
+      oneOf:
       - enum:
         - checkbox1
         title: 'Value #1'
