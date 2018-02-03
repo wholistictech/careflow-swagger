@@ -56,13 +56,7 @@ paths:
         200:
           description: "Status 200"
           schema:
-            type: "object"
-          examples:
-            application/vnd.api+json: "{\n    \"data\": {\n        \"id\": 116,\n\
-              \        \"type\": \"users\",\n        \"attributes\": {\n         \
-              \   \"name\": \"John Kilometer\",\n            \"email\": \"kili@polo10.com\"\
-              ,\n            \"created_at\": \"2017-12-21T12:57:43.581Z\"\n      \
-              \  }\n    }\n}"
+            $ref: "#/definitions/User"
           headers:
             Authorization:
               type: "string"
@@ -1205,45 +1199,82 @@ securityDefinitions:
 definitions:
   User:
     type: "object"
-    required:
-    - "avatar"
-    - "birth_date"
-    - "id"
-    - "mobile_no"
-    - "name"
     properties:
-      id:
-        type: "integer"
-      name:
-        type: "string"
-        example: "kiki lolo"
-      birth_date:
-        type: "string"
-        format: "date"
-      mobile_no:
-        type: "string"
-      email:
-        type: "string"
-      avatar:
-        type: "string"
-      address_data:
-        type: "object"
-      pin_no:
-        type: "string"
-      invitation:
-        type: "object"
-      invited_by_id:
-        type: "integer"
-      caregiver_type:
-        type: "string"
-      position:
-        type: "string"
-      role:
-        type: "string"
       data:
         type: "object"
-      status:
-        type: "string"
+        properties:
+          id:
+            type: "string"
+          type:
+            type: "string"
+          links:
+            type: "object"
+            properties:
+              self:
+                type: "string"
+          attributes:
+            type: "object"
+            properties:
+              name:
+                type: "object"
+              email:
+                type: "string"
+              first_name:
+                type: "object"
+              last_name:
+                type: "object"
+              status:
+                type: "string"
+              mobile_no:
+                type: "object"
+              birth_date:
+                type: "object"
+              avatar:
+                type: "object"
+              address_data:
+                type: "object"
+              position:
+                type: "string"
+              caregiver_type:
+                type: "string"
+              role:
+                type: "object"
+              required_documents:
+                type: "object"
+              settings:
+                type: "object"
+              age:
+                type: "object"
+          relationships:
+            type: "object"
+            properties:
+              documents:
+                type: "object"
+                properties:
+                  links:
+                    type: "object"
+                    properties:
+                      self:
+                        type: "string"
+                      related:
+                        type: "string"
+    example: "{\n    \"data\": {\n        \"id\": \"1060\",\n        \"type\": \"\
+      users\",\n        \"links\": {\n            \"self\": \"http://www.example.com/api/v1/users/1060\"\
+      \n        },\n        \"attributes\": {\n            \"name\": \"Jim Duggan\"\
+      ,\n            \"email\": \"3@jacobsonbeatty.net\",\n            \"first_name\"\
+      : \"Jim\",\n            \"last_name\": \"Duggan\",\n            \"status\":\
+      \ \"invited\",\n            \"mobile_no\": \"0722334455\",\n            \"birth_date\"\
+      : \"12/12/012\",\n            \"avatar\": \"http://link\",\n            \"address_data\"\
+      : {\n                \"address1\": \"P.O  Box 324 \",\n                \"country\"\
+      : \"Kenya\"\n            },\n            \"position\": \"other\",\n        \
+      \    \"caregiver_type\": \"specialist\",\n            \"role\": \"trainer\"\
+      ,\n            \"required_documents\": {\n                \"applied\": [\n \
+      \                   \"drivers_license\"\n                ]\n            },\n\
+      \            \"settings\": null,\n            \"age\": 23\n        },\n    \
+      \    \"relationships\": {\n            \"documents\": {\n                \"\
+      links\": {\n                    \"self\": \"http://www.example.com/api/v1/users/1060/relationships/documents\"\
+      ,\n                    \"related\": \"http://www.example.com/api/v1/users/1060/documents\"\
+      \n                }\n            }\n        }\n    }\n}"
   Document:
     type: "object"
     properties:
