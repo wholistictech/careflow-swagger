@@ -103,14 +103,7 @@ paths:
         200:
           description: "Status 200"
           schema:
-            type: "object"
-          examples:
-            application/vnd.api+json: "{\n    \"data\": {\n        \"id\": 116,\n\
-              \        \"type\": \"users\",\n        \"attributes\": {\n         \
-              \   \"name\": \"John Kilometer\",\n           \"first-name\": \"John\
-              \ Kilometer\",\n           \"last-name\": \"John Kilometer\",\n    \
-              \        \"email\": \"kili@polo10.com\",\n            \"created_at\"\
-              : \"2017-12-21T12:57:43.581Z\"\n        }\n    }\n}"
+            $ref: "#/definitions/User"
           headers:
             Authorization:
               type: "string"
@@ -163,13 +156,7 @@ paths:
         200:
           description: "Status 200"
           schema:
-            type: "object"
-          examples:
-            application/vnd.api+json: "{\n    \"data\": {\n        \"id\": 116,\n\
-              \        \"type\": \"users\",\n        \"attributes\": {\n         \
-              \   \"name\": \"John Kilometer\",\n            \"email\": \"kili@polo10.com\"\
-              ,\n            \"created_at\": \"2017-12-21T12:57:43.581Z\"\n      \
-              \  }\n    }\n}"
+            $ref: "#/definitions/User"
           headers:
             Authorization:
               type: "string"
@@ -206,13 +193,7 @@ paths:
         200:
           description: "Status 200"
           schema:
-            type: "object"
-          examples:
-            application/vnd.api+json: "{\n    \"data\": {\n        \"id\": 115,\n\
-              \        \"type\": \"users\",\n        \"attributes\": {\n         \
-              \   \"name\": \"John Rambososo\",\n            \"email\": \"kili@polo21.com\"\
-              ,\n            \"created_at\": \"2017-12-21T11:57:26.989Z\"\n      \
-              \  }\n    }\n}"
+            $ref: "#/definitions/User"
       security:
       - JSONAPI: []
     post:
@@ -360,13 +341,7 @@ paths:
         200:
           description: "Status 200"
           schema:
-            type: "object"
-          examples:
-            application/vnd.api+json: "{\n    \"data\": {\n        \"id\": 147,\n\
-              \        \"type\": \"users\",\n        \"attributes\": {\n         \
-              \   \"name\": \"John Paul\",\n            \"email\": \"john@pauljohn.com\"\
-              ,\n            \"created_at\": \"2018-01-09T13:54:21.343Z\"\n      \
-              \  }\n    }\n}"
+            $ref: "#/definitions/User"
   /users/sign_out:
     delete:
       tags:
@@ -435,204 +410,27 @@ paths:
             type: "object"
           examples:
             application/vnd.api+json: "{\n    \"data\": [\n        {\n           \
-              \ \"id\": \"93\",\n            \"type\": \"users\",\n            \"\
-              links\": {\n                \"self\": \"http://localhost:3000/users/93\"\
+              \ \"id\": \"1060\",\n            \"type\": \"users\",\n            \"\
+              links\": {\n                \"self\": \"http://www.example.com/api/v1/users/1060\"\
               \n            },\n            \"attributes\": {\n                \"\
-              name\": \"John Ramboso\",\n                \"email\": \"kgathi2@gmail.com\"\
-              ,\n                \"mobile-no\": \"08384838434\",\n               \
-              \ \"birth-date\": \"1990-12-12\",\n                \"avatar\": \"avatar-url2\"\
-              ,\n                \"address-data\": {\n                    \"corner\"\
-              : {\n                        \"that\": \"one\"\n                   \
-              \ },\n                    \"street\": \"temple road\"\n            \
-              \    },\n                \"age\": 28\n            }\n        },\n  \
-              \      {\n            \"id\": \"104\",\n            \"type\": \"users\"\
-              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/104\"\
-              \n            },\n            \"attributes\": {\n                \"\
-              name\": \"John Kilometer\",\n                \"email\": \"kili@polo3.com\"\
-              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
-              : null,\n                \"avatar\": null,\n                \"address-data\"\
-              : null,\n                \"age\": null\n            }\n        },\n\
-              \        {\n            \"id\": \"105\",\n            \"type\": \"users\"\
-              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/105\"\
-              \n            },\n            \"attributes\": {\n                \"\
-              name\": \"John Kilometer\",\n                \"email\": \"kili@polo4.com\"\
-              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
-              : null,\n                \"avatar\": null,\n                \"address-data\"\
-              : null,\n                \"age\": null\n            }\n        },\n\
-              \        {\n            \"id\": \"111\",\n            \"type\": \"users\"\
-              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/111\"\
-              \n            },\n            \"attributes\": {\n                \"\
-              name\": \"John Kilometer\",\n                \"email\": \"kili@polo5.com\"\
-              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
-              : null,\n                \"avatar\": null,\n                \"address-data\"\
-              : null,\n                \"age\": null\n            }\n        },\n\
-              \        {\n            \"id\": \"112\",\n            \"type\": \"users\"\
-              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/112\"\
-              \n            },\n            \"attributes\": {\n                \"\
-              name\": \"John Kilometer\",\n                \"email\": \"kili@polo6.com\"\
-              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
-              : null,\n                \"avatar\": null,\n                \"address-data\"\
-              : null,\n                \"age\": null\n            }\n        },\n\
-              \        {\n            \"id\": \"113\",\n            \"type\": \"users\"\
-              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/113\"\
-              \n            },\n            \"attributes\": {\n                \"\
-              name\": \"John Kilometer\",\n                \"email\": \"kili@polo7.com\"\
-              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
-              : null,\n                \"avatar\": null,\n                \"address-data\"\
-              : null,\n                \"age\": null\n            }\n        },\n\
-              \        {\n            \"id\": \"114\",\n            \"type\": \"users\"\
-              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/114\"\
-              \n            },\n            \"attributes\": {\n                \"\
-              name\": \"John Kilometer\",\n                \"email\": \"kili@polo8.com\"\
-              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
-              : null,\n                \"avatar\": null,\n                \"address-data\"\
-              : null,\n                \"age\": null\n            }\n        },\n\
-              \        {\n            \"id\": \"115\",\n            \"type\": \"users\"\
-              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/115\"\
-              \n            },\n            \"attributes\": {\n                \"\
-              name\": \"John Rambososo\",\n                \"email\": \"kili@polo9.com\"\
-              ,\n                \"mobile-no\": \"08384838434\",\n               \
-              \ \"birth-date\": \"1990-12-12\",\n                \"avatar\": \"avatar-url2\"\
-              ,\n                \"address-data\": {\n                    \"corner\"\
-              : {\n                        \"that\": \"one\"\n                   \
-              \ },\n                    \"street\": \"temple road\"\n            \
-              \    },\n                \"age\": 28\n            }\n        },\n  \
-              \      {\n            \"id\": \"116\",\n            \"type\": \"users\"\
-              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/116\"\
-              \n            },\n            \"attributes\": {\n                \"\
-              name\": \"John Kilometer\",\n                \"email\": \"kili@polo10.com\"\
-              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
-              : null,\n                \"avatar\": null,\n                \"address-data\"\
-              : null,\n                \"age\": null\n            }\n        },\n\
-              \        {\n            \"id\": \"136\",\n            \"type\": \"users\"\
-              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/136\"\
-              \n            },\n            \"attributes\": {\n                \"\
-              name\": \"John Rambo\",\n                \"email\": \"kili@polo.com\"\
-              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
-              : null,\n                \"avatar\": null,\n                \"address-data\"\
-              : null,\n                \"age\": null\n            }\n        },\n\
-              \        {\n            \"id\": \"137\",\n            \"type\": \"users\"\
-              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/137\"\
-              \n            },\n            \"attributes\": {\n                \"\
-              name\": \"John Rambo\",\n                \"email\": \"kili@polol.com\"\
-              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
-              : null,\n                \"avatar\": null,\n                \"address-data\"\
-              : null,\n                \"age\": null\n            }\n        },\n\
-              \        {\n            \"id\": \"138\",\n            \"type\": \"users\"\
-              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/138\"\
-              \n            },\n            \"attributes\": {\n                \"\
-              name\": \"John Rambo\",\n                \"email\": \"kili@polosl.com\"\
-              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
-              : null,\n                \"avatar\": null,\n                \"address-data\"\
-              : null,\n                \"age\": null\n            }\n        },\n\
-              \        {\n            \"id\": \"139\",\n            \"type\": \"users\"\
-              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/139\"\
-              \n            },\n            \"attributes\": {\n                \"\
-              name\": \"John Rambo\",\n                \"email\": \"kili@polosl3.com\"\
-              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
-              : null,\n                \"avatar\": null,\n                \"address-data\"\
-              : null,\n                \"age\": null\n            }\n        },\n\
-              \        {\n            \"id\": \"140\",\n            \"type\": \"users\"\
-              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/140\"\
-              \n            },\n            \"attributes\": {\n                \"\
-              name\": null,\n                \"email\": \"kili@outhth.com\",\n   \
-              \             \"mobile-no\": null,\n                \"birth-date\":\
-              \ null,\n                \"avatar\": null,\n                \"address-data\"\
-              : null,\n                \"age\": null\n            }\n        },\n\
-              \        {\n            \"id\": \"141\",\n            \"type\": \"users\"\
-              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/141\"\
-              \n            },\n            \"attributes\": {\n                \"\
-              name\": null,\n                \"email\": \"kili@outhsth.com\",\n  \
-              \              \"mobile-no\": null,\n                \"birth-date\"\
-              : null,\n                \"avatar\": null,\n                \"address-data\"\
-              : null,\n                \"age\": null\n            }\n        },\n\
-              \        {\n            \"id\": \"142\",\n            \"type\": \"users\"\
-              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/142\"\
-              \n            },\n            \"attributes\": {\n                \"\
-              name\": null,\n                \"email\": \"kili@outhssth.com\",\n \
-              \               \"mobile-no\": null,\n                \"birth-date\"\
-              : null,\n                \"avatar\": null,\n                \"address-data\"\
-              : null,\n                \"age\": null\n            }\n        },\n\
-              \        {\n            \"id\": \"143\",\n            \"type\": \"users\"\
-              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/143\"\
-              \n            },\n            \"attributes\": {\n                \"\
-              name\": null,\n                \"email\": \"kili@outhsssth.com\",\n\
-              \                \"mobile-no\": null,\n                \"birth-date\"\
-              : null,\n                \"avatar\": null,\n                \"address-data\"\
-              : null,\n                \"age\": null\n            }\n        },\n\
-              \        {\n            \"id\": \"144\",\n            \"type\": \"users\"\
-              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/144\"\
-              \n            },\n            \"attributes\": {\n                \"\
-              name\": \"kil pdp lfd\",\n                \"email\": \"kili@oh.com\"\
-              ,\n                \"mobile-no\": \"0292332232s3233\",\n           \
-              \     \"birth-date\": null,\n                \"avatar\": null,\n   \
-              \             \"address-data\": null,\n                \"age\": null\n\
-              \            }\n        },\n        {\n            \"id\": \"146\",\n\
-              \            \"type\": \"users\",\n            \"links\": {\n      \
-              \          \"self\": \"http://localhost:3000/users/146\"\n         \
-              \   },\n            \"attributes\": {\n                \"name\": \"\
-              kariuki gathitu\",\n                \"email\": \"john@paul.com\",\n\
-              \                \"mobile-no\": \"0733737273\",\n                \"\
-              birth-date\": null,\n                \"avatar\": null,\n           \
-              \     \"address-data\": null,\n                \"age\": null\n     \
-              \       }\n        },\n        {\n            \"id\": \"147\",\n   \
-              \         \"type\": \"users\",\n            \"links\": {\n         \
-              \       \"self\": \"http://localhost:3000/users/147\"\n            },\n\
-              \            \"attributes\": {\n                \"name\": \"John Paul\"\
-              ,\n                \"email\": \"john@pauljohn.com\",\n             \
-              \   \"mobile-no\": \"0722334455\",\n                \"birth-date\":\
-              \ null,\n                \"avatar\": null,\n                \"address-data\"\
-              : null,\n                \"age\": null\n            }\n        },\n\
-              \        {\n            \"id\": \"148\",\n            \"type\": \"users\"\
-              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/148\"\
-              \n            },\n            \"attributes\": {\n                \"\
-              name\": \"John Kilometer\",\n                \"email\": \"kili@polo11.com\"\
-              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
-              : null,\n                \"avatar\": null,\n                \"address-data\"\
-              : null,\n                \"age\": null\n            }\n        },\n\
-              \        {\n            \"id\": \"149\",\n            \"type\": \"users\"\
-              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/149\"\
-              \n            },\n            \"attributes\": {\n                \"\
-              name\": \"John Kilometer\",\n                \"email\": \"kili@polo12.com\"\
-              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
-              : null,\n                \"avatar\": null,\n                \"address-data\"\
-              : null,\n                \"age\": null\n            }\n        },\n\
-              \        {\n            \"id\": \"150\",\n            \"type\": \"users\"\
-              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/150\"\
-              \n            },\n            \"attributes\": {\n                \"\
-              name\": \"John Kilometer\",\n                \"email\": \"kili@polo13.com\"\
-              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
-              : null,\n                \"avatar\": null,\n                \"address-data\"\
-              : null,\n                \"age\": null\n            }\n        },\n\
-              \        {\n            \"id\": \"183\",\n            \"type\": \"users\"\
-              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/183\"\
-              \n            },\n            \"attributes\": {\n                \"\
-              name\": \"John Kilometer\",\n                \"email\": \"kili@polo14.com\"\
-              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
-              : null,\n                \"avatar\": null,\n                \"address-data\"\
-              : null,\n                \"age\": null\n            }\n        },\n\
-              \        {\n            \"id\": \"184\",\n            \"type\": \"users\"\
-              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/184\"\
-              \n            },\n            \"attributes\": {\n                \"\
-              name\": \"John Kilometer\",\n                \"email\": \"kili@polo15.com\"\
-              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
-              : null,\n                \"avatar\": null,\n                \"address-data\"\
-              : null,\n                \"age\": null\n            }\n        },\n\
-              \        {\n            \"id\": \"185\",\n            \"type\": \"users\"\
-              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/185\"\
-              \n            },\n            \"attributes\": {\n                \"\
-              name\": \"John Kilometer\",\n                \"email\": \"kili@polo16.com\"\
-              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
-              : null,\n                \"avatar\": null,\n                \"address-data\"\
-              : null,\n                \"age\": null\n            }\n        },\n\
-              \        {\n            \"id\": \"218\",\n            \"type\": \"users\"\
-              ,\n            \"links\": {\n                \"self\": \"http://localhost:3000/users/218\"\
-              \n            },\n            \"attributes\": {\n                \"\
-              name\": \"John Kilometer\",\n                \"email\": \"kili@polo1.com\"\
-              ,\n                \"mobile-no\": null,\n                \"birth-date\"\
-              : null,\n                \"avatar\": null,\n                \"address-data\"\
-              : null,\n                \"age\": null\n            }\n        }\n \
-              \   ]\n}"
+              name\": \"Jim Duggan\",\n                \"email\": \"3@jacobsonbeatty.net\"\
+              ,\n                \"first_name\": \"Jim\",\n                \"last_name\"\
+              : \"Duggan\",\n                \"status\": \"invited\",\n          \
+              \      \"mobile_no\": \"0722334455\",\n                \"birth_date\"\
+              : \"12/12/012\",\n                \"avatar\": \"http://link\",\n   \
+              \             \"address_data\": {\n                    \"address1\"\
+              : \"P.O  Box 324 \",\n                    \"country\": \"Kenya\"\n \
+              \               },\n                \"position\": \"other\",\n     \
+              \           \"caregiver_type\": \"specialist\",\n                \"\
+              role\": \"trainer\",\n                \"required_documents\": {\n  \
+              \                  \"applied\": [\n                        \"drivers_license\"\
+              \n                    ]\n                },\n                \"settings\"\
+              : null,\n                \"age\": 23\n            },\n            \"\
+              relationships\": {\n                \"documents\": {\n             \
+              \       \"links\": {\n                        \"self\": \"http://www.example.com/api/v1/users/1060/relationships/documents\"\
+              ,\n                        \"related\": \"http://www.example.com/api/v1/users/1060/documents\"\
+              \n                    }\n                }\n            }\n        }\n\
+              \    ]\n}"
   /users/{id}:
     get:
       tags:
@@ -662,16 +460,7 @@ paths:
         200:
           description: "Status 200"
           schema:
-            type: "object"
-          examples:
-            application/vnd.api+json: "{\n    \"data\": {\n        \"id\": \"104\"\
-              ,\n        \"type\": \"users\",\n        \"links\": {\n            \"\
-              self\": \"http://localhost:3000/users/104\"\n        },\n        \"\
-              attributes\": {\n            \"name\": \"John Kilometer\",\n       \
-              \     \"email\": \"kili@polo3.com\",\n            \"mobile-no\": null,\n\
-              \            \"birth-date\": null,\n            \"avatar\": null,\n\
-              \            \"address-data\": null,\n            \"age\": null\n  \
-              \      }\n    }\n}"
+            $ref: "#/definitions/User"
     patch:
       tags:
       - "Users"
@@ -724,18 +513,7 @@ paths:
         202:
           description: "Modification accepted"
           schema:
-            type: "object"
-          examples:
-            application/vnd.api+json: "{\n    \"data\": {\n        \"id\": \"115\"\
-              ,\n        \"type\": \"users\",\n        \"links\": {\n            \"\
-              self\": \"http://localhost:3000/users/115\"\n        },\n        \"\
-              attributes\": {\n            \"name\": \"John Rambososo\",\n       \
-              \     \"email\": \"kili@polo9.com\",\n            \"mobile-no\": \"\
-              08384838434\",\n            \"birth-date\": \"1990-12-12\",\n      \
-              \      \"avatar\": \"avatar-url2\",\n            \"address-data\": {\n\
-              \                \"street\": \"temple road\",\n                \"corner\"\
-              : {\n                    \"that\": \"one\"\n                }\n    \
-              \        },\n            \"age\": 28\n        }\n    }\n}"
+            $ref: "#/definitions/User"
     parameters:
     - name: "id"
       in: "path"
@@ -781,45 +559,6 @@ paths:
       in: "path"
       required: true
       type: "string"
-  /users/whoami:
-    get:
-      tags:
-      - "Users"
-      summary: "Get Current User"
-      parameters:
-      - name: "Authorization"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Should contain the JWT token.\n                Format of the\
-          \ value is : Bearer $JWT_TOKEN"
-        x-example: "Bearer xxxxxxxxx.yyyyyyyyyy.zzzzzzzzz"
-      - name: "Accept"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Request and Response is always JSON"
-        x-example: "application/vnd.api+json"
-      - name: "Content-Type"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Request and Response is always JSON"
-        x-example: "application/vnd.api+json"
-      responses:
-        200:
-          description: "Status 200"
-          schema:
-            type: "object"
-          examples:
-            application/vnd.api+json: "{\n    \"data\": {\n        \"id\": \"104\"\
-              ,\n        \"type\": \"users\",\n        \"links\": {\n            \"\
-              self\": \"http://localhost:3000/users/104\"\n        },\n        \"\
-              attributes\": {\n            \"name\": \"John Kilometer\",\n       \
-              \     \"email\": \"kili@polo3.com\",\n            \"mobile-no\": null,\n\
-              \            \"birth-date\": null,\n            \"avatar\": null,\n\
-              \            \"address-data\": null,\n            \"age\": null\n  \
-              \      }\n    }\n}"
   /documents:
     post:
       tags:
@@ -1185,6 +924,37 @@ paths:
       required: true
       type: "string"
       x-example: "sa0df0f97ad0s9f7ds9"
+  /users/whoami: {}
+  /whoami:
+    get:
+      tags:
+      - "System"
+      summary: "Get Current User"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Should contain the JWT token.\n                Format of the\
+          \ value is : Bearer $JWT_TOKEN"
+        x-example: "Bearer xxxxxxxxx.yyyyyyyyyy.zzzzzzzzz"
+      - name: "Accept"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/User"
 securityDefinitions:
   JWT:
     description: "Authorization with JWT Token passed as `authorization` header. See\
