@@ -762,22 +762,24 @@ paths:
       required: true
       type: "string"
       x-example: "publish"
-  /contracts: {}
-  /contracts/{contract_id}:
-    parameters:
-    - name: "contract_id"
-      in: "path"
-      required: true
-      type: "string"
-  /contracts/1/{switch}:
-    parameters:
-    - name: "switch"
-      in: "path"
-      required: true
-      type: "string"
-      x-example: "accept"
-  /notifications: {}
+  /notifications:
+    get:
+      tags:
+      - "Streams"
+      summary: "Get all notfication"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
   /notification/{id}:
+    get:
+      tags:
+      - "Streams"
+      summary: "Get single notification"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
     parameters:
     - name: "id"
       in: "path"
@@ -794,7 +796,206 @@ paths:
       required: true
       type: "string"
       x-example: "seed"
+  /contracts: {}
+  /contracts/{contract_id}:
+    parameters:
+    - name: "contract_id"
+      in: "path"
+      required: true
+      type: "string"
+  /contracts/1/{switch}:
+    parameters:
+    - name: "switch"
+      in: "path"
+      required: true
+      type: "string"
+      x-example: "accept"
   /activities: {}
+  /system/whoami:
+    get:
+      tags:
+      - "System"
+      summary: "Get Current User"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Should contain the JWT token.\n                Format of the\
+          \ value is : Bearer $JWT_TOKEN"
+        x-example: "Bearer xxxxxxxxx.yyyyyyyyyy.zzzzzzzzz"
+      - name: "Accept"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/User"
+  /system/schemas/{schema_name}:
+    get:
+      summary: "Get Schema of document"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            type: "object"
+          examples:
+            application/vnd.api+json: "\n  {\n    \"id\": \"0001\",\n    \"name\"\
+              : \"application_data\",\n    \"type\":  \"data\",\n    \"content\":\
+              \ \"Long content for a consent or notice \",\n    \"schema\": {\n  \"\
+              type\": \"object\",\n  \"properties\": {\n    \"position\": {\n    \
+              \  \"title\": \"Position\",\n      \"description\": \"Position applying\
+              \ for\",\n      \"type\": \"string\",\n      \"oneOf\": [\n        {\n\
+              \          \"enum\": [\n            \"direct_suppoty\"\n          ],\n\
+              \          \"title\": \"DSP\"\n        },\n        {\n          \"enum\"\
+              : [\n            \"qipd\"\n          ],\n          \"title\": \"QIPD\"\
+              \n        }\n      ]\n    },\n    \"earliest_availablity\": {\n    \
+              \  \"title\": \"Earliest Availability\",\n      \"description\": \"\
+              When can you be available to work\",\n      \"type\": \"string\",\n\
+              \      \"format\": \"date-time\"\n    },\n    \"available_hours_daily\"\
+              : {\n      \"title\": \"Daily hours avaiable\",\n      \"description\"\
+              : \"Hours available to work. (enter 8 for)\",\n      \"type\": \"integer\"\
+              ,\n      \"minimum\": 1,\n      \"maximum\": 8\n    },\n    \"us_employability\"\
+              : {\n      \"title\": \"US Work Status\",\n      \"description\": \"\
+              Authorized to work in the US\",\n      \"type\": \"boolean\"\n    },\n\
+              \    \"valid_drivers_license\": {\n      \"title\": \"Drivers LIcense\
+              \ Status\",\n      \"description\": \"Valid Dring license available\"\
+              ,\n      \"type\": \"boolean\"\n    },\n    \"work_weekends\": {\n \
+              \     \"title\": \"Weekend Status\",\n      \"description\": \"Can work\
+              \ weekend\",\n      \"type\": \"boolean\"\n    },\n    \"work_overnight\"\
+              : {\n      \"title\": \"Overnight status\",\n      \"description\":\
+              \ \"Can work overnight\",\n      \"type\": \"boolean\"\n    },\n   \
+              \ \"any_work_hindrance_condition\": {\n      \"title\": \"Work Hindrances\"\
+              ,\n      \"description\": \"Any conditions limiting you from performing\
+              \ essential functions for applied position\",\n      \"type\": \"string\"\
+              ,\n      \"maxLength\": 200\n    },\n    \"work_motivation\": {\n  \
+              \    \"title\": \"Work Motivation\",\n      \"description\": \"Why do\
+              \ you want to work with this clientelle\",\n      \"type\": \"string\"\
+              ,\n      \"maxLength\": 500\n    },\n    \"employee_referral\": {\n\
+              \      \"title\": \"Employee referral\",\n      \"description\": \"\
+              how did you here of the opening\",\n      \"type\": \"string\",\n  \
+              \    \"maxLength\": 200\n    },\n    \"backgroud_history\": {\n    \
+              \  \"type\": \"object\",\n      \"title\": \"Background histroy\",\n\
+              \      \"properties\": {\n        \"residential_locations\": {\n   \
+              \       \"title\": \"Residential History\",\n          \"description\"\
+              : \"List all cities ans states where you have lived last 7 years (City,State,\
+              \ year)\",\n          \"type\": \"array\",\n          \"items\": {\n\
+              \            \"type\": \"string\"\n          }\n        },\n       \
+              \ \"vocational_locations\": {\n          \"title\": \"Vocational History\"\
+              ,\n          \"description\": \"List all cities and states where you\
+              \ have worked last 7 years (City,State, year)\",\n          \"type\"\
+              : \"array\",\n          \"items\": {\n            \"type\": \"string\"\
+              \n          }\n        },\n        \"aliases\": {\n          \"title\"\
+              : \"Name Aliases\",\n          \"description\": \"List all aliases you\
+              \ have used formally and informally. Alias names are maiden names, married\
+              \ names, nicknames and any other name used or known as\",\n        \
+              \  \"type\": \"string\"\n        },\n        \"criminal_conviction\"\
+              : {\n          \"title\": \"Criminal conviction\",\n          \"description\"\
+              : \"Have you been convicted past 7 years\",\n          \"type\": \"\
+              boolean\"\n        },\n        \"pending_cases\": {\n          \"title\"\
+              : \"Pending cases\",\n          \"description\": \"Do you have pending\
+              \ case or trial\",\n          \"type\": \"boolean\"\n        },\n  \
+              \      \"legal_details\": {\n          \"title\": \"Details of legal\
+              \ action\",\n          \"description\": \"Provide details and explaination\
+              \ for each conviction or pending case or trial including ...\",\n  \
+              \        \"type\": \"string\",\n          \"dependsOn\": [\n       \
+              \     \"pending_cases\",\n            \"criminal_conviction\"\n    \
+              \      ]\n        }\n      }\n    },\n    \"education_history\": {\n\
+              \      \"title\": \"Education Histoy\",\n      \"description\": \"Provide\
+              \ Education history\",\n      \"type\": \"object\",\n      \"properties\"\
+              : {\n        \"history\": {\n          \"type\": \"array\",\n      \
+              \    \"items\": {\n            \"type\": \"object\",\n            \"\
+              properties\": {\n              \"school_type\": {\n                \"\
+              title\": \"School Type\",\n                \"description\": \"school\
+              \ type\",\n                \"type\": \"string\",\n                \"\
+              oneOf\": [\n                  {\n                    \"enum\": [\n \
+              \                     \"high_school\"\n                    ],\n    \
+              \                \"title\": \"Hight school\"\n                  },\n\
+              \                  {\n                    \"enum\": [\n            \
+              \          \"college\"\n                    ],\n                   \
+              \ \"title\": \"College\"\n                  },\n                  {\n\
+              \                    \"enum\": [\n                      \"post_colledge\"\
+              \n                    ],\n                    \"title\": \"Post College\"\
+              \n                  },\n                  {\n                    \"\
+              enum\": [\n                      \"other\"\n                    ],\n\
+              \                    \"title\": \"Other Training\"\n               \
+              \   }\n                ]\n              },\n              \"name_location\"\
+              : {\n                \"title\": \"Name and Location\",\n           \
+              \     \"description\": \"Name and location of school\",\n          \
+              \      \"type\": \"string\"\n              },\n              \"year_attended\"\
+              : {\n                \"title\": \"Year attended\",\n               \
+              \ \"description\": \"Years attended\",\n                \"type\": \"\
+              string\"\n              },\n              \"major\": {\n           \
+              \     \"title\": \"Major\",\n                \"description\": \"Major\"\
+              ,\n                \"type\": \"string\"\n              },\n        \
+              \      \"degree\": {\n                \"title\": \"Degree\",\n     \
+              \           \"description\": \"Degree\",\n                \"type\":\
+              \ \"string\"\n              }\n            }\n          }\n        },\n\
+              \        \"additional_skills\": {\n          \"title\": \"Additional\
+              \ Skills\",\n          \"description\": \"In addition to you work history,\
+              \ are there and other skill or experiences we should consider\",\n \
+              \         \"type\": \"string\"\n        }\n      }\n    },\n    \"employment_history\"\
+              : {\n      \"title\": \"Emplyment History\",\n      \"description\"\
+              : \"Provide Employment History\",\n      \"type\": \"array\",\n    \
+              \  \"items\": {\n        \"type\": \"object\",\n        \"properties\"\
+              : {\n          \"company_name\": {\n            \"title\": \"Company\
+              \ Name\",\n            \"description\": \"Degree\",\n            \"\
+              type\": \"string\"\n          },\n          \"address\": {\n       \
+              \     \"title\": \"Address\",\n            \"description\": \"Address\"\
+              ,\n            \"type\": \"string\"\n          },\n          \"telephone\"\
+              : {\n            \"title\": \"Telephone\",\n            \"description\"\
+              : \"Telephone\",\n            \"type\": \"string\"\n          },\n \
+              \         \"start_date\": {\n            \"title\": \"Start Date\",\n\
+              \            \"description\": \"Start Date\",\n            \"type\"\
+              : \"string\"\n          },\n          \"start_position\": {\n      \
+              \      \"title\": \"Start Position\",\n            \"description\":\
+              \ \"Start Position\",\n            \"type\": \"string\"\n          },\n\
+              \          \"end_date\": {\n            \"title\": \"End date\",\n \
+              \           \"description\": \"End date\",\n            \"type\": \"\
+              string\"\n          },\n          \"end_position\": {\n            \"\
+              title\": \"End Position\",\n            \"description\": \"End Position\"\
+              ,\n            \"type\": \"string\"\n          },\n          \"currently_job\"\
+              : {\n            \"title\": \"Currently employed\",\n            \"\
+              description\": \"Are you currently employed here\",\n            \"\
+              type\": \"boolean\"\n          },\n          \"comments\": {\n     \
+              \       \"title\": \"Comments\",\n            \"description\": \"ANy\
+              \ comments. . include reson for leaving if applicable\",\n         \
+              \   \"type\": \"string\"\n          },\n          \"supervisor_name\"\
+              : {\n            \"title\": \"Supervisots name\",\n            \"description\"\
+              : \"Supervisors name\",\n            \"type\": \"string\"\n        \
+              \  },\n          \"contact_consent\": {\n            \"title\": \"Contact\
+              \ consent\",\n            \"description\": \"Can we contact this employer\"\
+              ,\n            \"type\": \"boolean\"\n          },\n          \"contact_name\"\
+              : {\n            \"title\": \"Contact name\",\n            \"description\"\
+              : \"Name of persone to contact\",\n            \"type\": \"string\"\n\
+              \          }\n        }\n      }\n    },\n    \"references\": {\n  \
+              \    \"title\": \"References\",\n      \"description\": \"Array\",\n\
+              \      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"\
+              object\",\n        \"properties\": {\n          \"name\": {\n      \
+              \      \"title\": \"Name\",\n            \"description\": \"Name\",\n\
+              \            \"type\": \"string\"\n          },\n          \"address\"\
+              : {\n            \"title\": \"Addres\",\n            \"description\"\
+              : \"Address\",\n            \"type\": \"string\"\n          },\n   \
+              \       \"phone\": {\n            \"title\": \"Phone\",\n          \
+              \  \"description\": \"Phone\",\n            \"type\": \"string\"\n \
+              \         }\n        }\n      }\n    }\n  },\n  \"additionalProperties\"\
+              : false,\n  \"required\": [\n    \"position\"\n  ]\n}\n  }"
+    parameters:
+    - name: "schema_name"
+      in: "path"
+      required: true
+      type: "string"
   /assets/{user_id}/{folder}/{file_name}:
     get:
       tags:
@@ -924,37 +1125,6 @@ paths:
       required: true
       type: "string"
       x-example: "sa0df0f97ad0s9f7ds9"
-  /users/whoami: {}
-  /whoami:
-    get:
-      tags:
-      - "System"
-      summary: "Get Current User"
-      parameters:
-      - name: "Authorization"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Should contain the JWT token.\n                Format of the\
-          \ value is : Bearer $JWT_TOKEN"
-        x-example: "Bearer xxxxxxxxx.yyyyyyyyyy.zzzzzzzzz"
-      - name: "Accept"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Request and Response is always JSON"
-        x-example: "application/vnd.api+json"
-      - name: "Content-Type"
-        in: "header"
-        required: false
-        type: "string"
-        description: "Request and Response is always JSON"
-        x-example: "application/vnd.api+json"
-      responses:
-        200:
-          description: "Status 200"
-          schema:
-            $ref: "#/definitions/User"
 securityDefinitions:
   JWT:
     description: "Authorization with JWT Token passed as `authorization` header. See\
