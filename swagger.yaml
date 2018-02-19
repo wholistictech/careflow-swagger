@@ -407,30 +407,7 @@ paths:
         200:
           description: "Status 200"
           schema:
-            type: "object"
-          examples:
-            application/vnd.api+json: "{\n    \"data\": [\n        {\n           \
-              \ \"id\": \"1060\",\n            \"type\": \"users\",\n            \"\
-              links\": {\n                \"self\": \"http://www.example.com/api/v1/users/1060\"\
-              \n            },\n            \"attributes\": {\n                \"\
-              name\": \"Jim Duggan\",\n                \"email\": \"3@jacobsonbeatty.net\"\
-              ,\n                \"first_name\": \"Jim\",\n                \"last_name\"\
-              : \"Duggan\",\n                \"status\": \"invited\",\n          \
-              \      \"mobile_no\": \"0722334455\",\n                \"birth_date\"\
-              : \"12/12/012\",\n                \"avatar\": \"http://link\",\n   \
-              \             \"address_data\": {\n                    \"address1\"\
-              : \"P.O  Box 324 \",\n                    \"country\": \"Kenya\"\n \
-              \               },\n                \"position\": \"other\",\n     \
-              \           \"caregiver_type\": \"specialist\",\n                \"\
-              role\": \"trainer\",\n                \"required_documents\": {\n  \
-              \                  \"applied\": [\n                        \"drivers_license\"\
-              \n                    ]\n                },\n                \"settings\"\
-              : null,\n                \"age\": 23\n            },\n            \"\
-              relationships\": {\n                \"documents\": {\n             \
-              \       \"links\": {\n                        \"self\": \"http://www.example.com/api/v1/users/1060/relationships/documents\"\
-              ,\n                        \"related\": \"http://www.example.com/api/v1/users/1060/documents\"\
-              \n                    }\n                }\n            }\n        }\n\
-              \    ]\n}"
+            $ref: "#/definitions/Users"
   /users/{id}:
     get:
       tags:
@@ -559,7 +536,71 @@ paths:
       in: "path"
       required: true
       type: "string"
+  /users/{id}/documents:
+    get:
+      tags:
+      - "Users"
+      summary: "Get user documents"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Should contain the JWT token.\n                Format of the\
+          \ value is : Bearer $JWT_TOKEN"
+        x-example: "Bearer xxxxxxxxx.yyyyyyyyyy.zzzzzzzzz"
+      - name: "Accept"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Documents"
+    parameters:
+    - name: "id"
+      in: "path"
+      required: true
+      type: "string"
   /documents:
+    get:
+      tags:
+      - "Documents"
+      summary: "Show all document"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Should contain the JWT token.\n                Format of the\
+          \ value is : Bearer $JWT_TOKEN"
+        x-example: "Bearer xxxxxxxxx.yyyyyyyyyy.zzzzzzzzz"
+      - name: "Accept"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Documents"
     post:
       tags:
       - "Documents"
@@ -589,30 +630,12 @@ paths:
         in: "body"
         required: true
         schema:
-          type: "object"
-        x-examples:
-          application/vnd.api+json: "{\n\t\"data\": {\n\t\t\"type\": \"documents\"\
-            ,\n\t\t\"id\": \"09f9a8sf08das09f8d\",\n\t\t\"attributes\": {\n\t\t\t\"\
-            name\": \"Driving license\",\n\t\t\t\"document_id\": \"DL8989843\",\n\t\
-            \t\t\"expiry_date\": \"2017-12-20\",\n\t\t\t\"referee\": {\n\t\t\t\t\"\
-            name\": \"John Scot\",\n\t\t\t\t\"role\": \"instructor\"\n\t\t\t},\n\t\
-            \t\t\"data\": {\n\t\t\t\t\"files\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"name\"\
-            :\"dl\",\n\t\t\t\t\t\t\"url\": \"firebasestore://user/1/09f9a8sf08das09f8d\"\
-            \n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t}\n\t\t}\n\t}\n}\n\n"
+          $ref: "#/definitions/Document"
       responses:
         200:
           description: "Status 200"
           schema:
-            type: "object"
-          examples:
-            application/vnd.api+json: "{\n\t\"data\": {\n\t\t\"type\": \"documents\"\
-              ,\n\t\t\"id\": \"09f9a8sf08das09f8d\",\n\t\t\"attributes\": {\n\t\t\t\
-              \"name\": \"Driving license\",\n\t\t\t\"document_id\": \"DL8989843\"\
-              ,\n\t\t\t\"expiry_date\": \"2017-12-20\",\n\t\t\t\"referee\": {\n\t\t\
-              \t\t\"name\": \"John Scot\",\n\t\t\t\t\"role\": \"instructor\"\n\t\t\
-              \t},\n\t\t\t\"data\": {\n\t\t\t\t\"files\": [\n\t\t\t\t\t{\n\t\t\t\t\
-              \t\t\"name\":\"dl\",\n\t\t\t\t\t\t\"url\": \"firebasestore://user/1/09f9a8sf08das09f8d\"\
-              \n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t}\n\t\t}\n\t}\n}\n\n"
+            $ref: "#/definitions/Document"
   /documents/{id}:
     get:
       tags:
@@ -641,6 +664,8 @@ paths:
       responses:
         200:
           description: "Status 200"
+          schema:
+            $ref: "#/definitions/Document"
     delete:
       tags:
       - "Documents"
@@ -667,12 +692,12 @@ paths:
         description: "Request and Response is always JSON"
         x-example: "application/vnd.api+json"
       responses:
-        200:
-          description: "Status 200"
+        204:
+          description: "Status 204"
     patch:
       tags:
       - "Documents"
-      summary: "Edit document"
+      summary: "Update document"
       consumes: []
       parameters:
       - name: "Authorization"
@@ -707,16 +732,7 @@ paths:
         200:
           description: "Status 200"
           schema:
-            type: "object"
-          examples:
-            application/vnd.api+json: "{\n\t\"data\": {\n\t\t\"type\": \"documents\"\
-              ,\n\t\t\"id\": \"09f9a8sf08das09f8d\",\n\t\t\"attributes\": {\n\t\t\t\
-              \"name\": \"Driving license\",\n\t\t\t\"document_id\": \"DL8989843\"\
-              ,\n\t\t\t\"expiry_date\": \"2017-12-20\",\n\t\t\t\"referee\": {\n\t\t\
-              \t\t\"name\": \"John Scot\",\n\t\t\t\t\"role\": \"instructor\"\n\t\t\
-              \t},\n\t\t\t\"data\": {\n\t\t\t\t\"files\": [\n\t\t\t\t\t{\n\t\t\t\t\
-              \t\t\"name\":\"dl\",\n\t\t\t\t\t\t\"url\": \"firebasestore://user/1/09f9a8sf08das09f8d\"\
-              \n\t\t\t\t\t}\n\t\t\t\t]\n\t\t\t}\n\t\t}\n\t}\n}\n\n"
+            $ref: "#/definitions/Document"
     parameters:
     - name: "id"
       in: "path"
@@ -762,24 +778,89 @@ paths:
       required: true
       type: "string"
       x-example: "publish"
+  /streams:
+    get:
+      summary: "List Streams"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Streams"
+  /streams/{stream_id}:
+    get:
+      summary: "Get Stream"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Stream"
+    patch:
+      summary: "Update Stream"
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+        x-examples:
+          application/vnd.api+json: "{\n    \"data\": {\n    \t\"id\": 6,\n     \"\
+            type\": \"streams\",\n     \"attributes\": {\n\t\t\"mark\" : \"seen\"\n\
+            \           \n      }\n    }\n}"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Stream"
+    parameters:
+    - name: "stream_id"
+      in: "path"
+      required: true
+      type: "string"
   /notifications:
     get:
       tags:
       - "Streams"
-      summary: "Get all notfication"
+      summary: "List notifications"
       parameters: []
       responses:
         200:
           description: "Status 200"
+          schema:
+            $ref: "#/definitions/Notifications"
   /notification/{id}:
     get:
       tags:
       - "Streams"
-      summary: "Get single notification"
+      summary: "Get notification"
       parameters: []
       responses:
         200:
           description: "Status 200"
+          schema:
+            $ref: "#/definitions/Notification"
+    patch:
+      tags:
+      - "Streams"
+      summary: "Update notification"
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+        x-examples:
+          application/vnd.api+json: "{\n    \"data\": {\n    \t\"id\": 3,\n     \"\
+            type\": \"notifications\",\n     \"attributes\": {\n\t\t\"mark\" : \"\
+            seen\"\n           \n      }\n    }\n}"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Notification"
     parameters:
     - name: "id"
       in: "path"
@@ -796,8 +877,99 @@ paths:
       required: true
       type: "string"
       x-example: "seed"
-  /contracts: {}
+  /activities:
+    get:
+      summary: "List Events"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Events"
+    post:
+      summary: "Create Event"
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+        x-examples:
+          application/vnd.api+json: "{\n    \"data\": {\n        \"type\": \"events\"\
+            ,\n        \"attributes\": {\n            \"title\": \"orientation class\
+            \ 1\",\n            \"description\": \"Orientation of the Caregivers\"\
+            ,\n            \"start_at\": \"2018-02-19 16:02:31 +0000\",\n        \
+            \    \"end_at\": \"2018-02-19 16:02:31 +0000\"\n        }\n    }\n}\n"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Event"
+  /activities/{event_id}:
+    get:
+      summary: "Get Event"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Event"
+    delete:
+      summary: "Delete Event"
+      parameters: []
+      responses:
+        204:
+          description: "Status 204"
+    patch:
+      summary: "Update Event"
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+        x-examples:
+          application/vnd.api+json: "{\n    \"data\": {\n        \"type\": \"events\"\
+            ,\n        \"id\": 1,\n        \"attributes\": {\n            \"title\"\
+            : \"orientation class 2\"\n        }\n    }\n}\n\n"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Event"
+    parameters:
+    - name: "event_id"
+      in: "path"
+      required: true
+      type: "string"
+  /contracts:
+    get:
+      summary: "List Contracts"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Contracts"
   /contracts/{contract_id}:
+    get:
+      summary: "Get Contract"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Contract"
+    patch:
+      summary: "Update Contract"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Contract"
     parameters:
     - name: "contract_id"
       in: "path"
@@ -810,7 +982,77 @@ paths:
       required: true
       type: "string"
       x-example: "accept"
-  /activities: {}
+  /placements:
+    get:
+      summary: "List Placements"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Placements"
+    post:
+      summary: "Create Placements"
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+        x-examples:
+          application/vnd.api+json: "{\n    \"data\": {\n        \"type\": \"placements\"\
+            ,\n        \"attributes\": {\n            \"station\": {\n           \
+            \     \"id\": 1,\n                \"name\": \"Green room\",\n        \
+            \        \"agency_id\": 1,\n                \"company_id\": 1,\n     \
+            \           \"company_type\": \"waiver\"\n            },\n           \
+            \ \"assignments_attributes\": [\n                {\n                 \
+            \   \"person\": {\n                        \"name\": \"Deion Stoltenberg\"\
+            ,\n                        \"station_id\": 1\n                    }\n\
+            \                },\n                {\n                    \"person\"\
+            : {\n                        \"name\": \"Phyllis Yundt\",\n          \
+            \              \"station_id\": 1\n                    }\n            \
+            \    },\n                {\n                    \"person\": {\n      \
+            \                  \"name\": \"Reymundo Lakin DDS\",\n               \
+            \         \"station_id\": 1\n                    }\n                }\n\
+            \            ]\n        }\n    }\n}\n"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Placement"
+  /placements/{placement_id}:
+    get:
+      summary: "Get Placement"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Placement"
+    patch:
+      summary: "Update Placement"
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+        x-examples:
+          application/vnd.api+json: "{\n    \"data\": {\n        \"type\": \"placements\"\
+            ,\n        \"id\": 24,\n        \"attributes\": {\n            \n    \
+            \    }\n    }\n}\n"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Placement"
+    parameters:
+    - name: "placement_id"
+      in: "path"
+      required: true
+      type: "string"
   /system/whoami:
     get:
       tags:
@@ -1215,171 +1457,278 @@ definitions:
       links\": {\n                    \"self\": \"http://www.example.com/api/v1/users/1060/relationships/documents\"\
       ,\n                    \"related\": \"http://www.example.com/api/v1/users/1060/documents\"\
       \n                }\n            }\n        }\n    }\n}"
+  Users:
+    type: "object"
+    example: "{\n    \"data\": [\n        {\n            \"id\": \"1060\",\n     \
+      \       \"type\": \"users\",\n            \"links\": {\n                \"self\"\
+      : \"http://www.example.com/api/v1/users/1060\"\n            },\n           \
+      \ \"attributes\": {\n                \"name\": \"Jim Duggan\",\n           \
+      \     \"email\": \"3@jacobsonbeatty.net\",\n                \"first_name\":\
+      \ \"Jim\",\n                \"last_name\": \"Duggan\",\n                \"status\"\
+      : \"invited\",\n                \"mobile_no\": \"0722334455\",\n           \
+      \     \"birth_date\": \"12/12/012\",\n                \"avatar\": \"http://link\"\
+      ,\n                \"address_data\": {\n                    \"address1\": \"\
+      P.O  Box 324 \",\n                    \"country\": \"Kenya\"\n             \
+      \   },\n                \"position\": \"other\",\n                \"caregiver_type\"\
+      : \"specialist\",\n                \"role\": \"trainer\",\n                \"\
+      required_documents\": {\n                    \"applied\": [\n              \
+      \          \"drivers_license\"\n                    ]\n                },\n\
+      \                \"settings\": null,\n                \"age\": 23\n        \
+      \    },\n            \"relationships\": {\n                \"documents\": {\n\
+      \                    \"links\": {\n                        \"self\": \"http://www.example.com/api/v1/users/1060/relationships/documents\"\
+      ,\n                        \"related\": \"http://www.example.com/api/v1/users/1060/documents\"\
+      \n                    }\n                }\n            }\n        }\n    ]\n\
+      }"
   Document:
     type: "object"
-    properties:
-      id:
-        type: "integer"
-      caregiver_id:
-        type: "integer"
-      attached_to_id:
-        type: "integer"
-      attached_to_type:
-        type: "string"
-      pos:
-        type: "integer"
-      group:
-        type: "string"
-      name:
-        type: "string"
-      type:
-        type: "string"
-      expiry_date:
-        type: "string"
-        format: "date"
-      verification_status:
-        type: "string"
-      tags:
-        type: "array"
-        items:
-          type: "string"
-      data:
-        type: "object"
-      dependancies:
-        type: "object"
-      authorizers:
-        type: "object"
-      verifiers:
-        type: "object"
-      triggers:
-        type: "object"
     description: "Documents that are attacehd to a caregiers account and are tracked\
       \ for validity and currentness"
-  Contract:
+    example: "{\n      \"id\": \"52\",\n      \"type\": \"documents\",\n      \"links\"\
+      : {\n        \"self\": \"https://careflow-api-staging.zegetech.com/api/v1/documents/52\"\
+      \n      },\n      \"attributes\": {\n        \"name\": \"application_data\"\
+      ,\n        \"data\": {\n          \"position\": \"direct_support\",\n      \
+      \    \"references\": [],\n          \"work_weekends\": true,\n          \"work_overnight\"\
+      : true,\n          \"work_motivation\": \"n,mn\",\n          \"us_employability\"\
+      : true,\n          \"education_history\": {},\n          \"background_history\"\
+      : {\n            \"pending_cases\": false,\n            \"criminal_conviction\"\
+      : false\n          },\n          \"employment_history\": [\n            {\n\
+      \              \"currently_job\": false,\n              \"contact_consent\"\
+      : false\n            }\n          ],\n          \"earliest_availablity\": \"\
+      2018-02-08\",\n          \"valid_drivers_license\": true,\n          \"available_hours_weekly\"\
+      : 5,\n          \"any_work_hindrance_condition\": \"lk\"\n        },\n     \
+      \   \"attached_to_type\": \"User\",\n        \"attached_to_id\": 1,\n      \
+      \  \"status\": \"verified\"\n      },\n      \"relationships\": {\n        \"\
+      attached_to\": {\n          \"links\": {\n            \"self\": \"https://careflow-api-staging.zegetech.com/api/v1/documents/52/relationships/attached_to\"\
+      ,\n            \"related\": \"https://careflow-api-staging.zegetech.com/api/v1/documents/52/attached_to\"\
+      \n          }\n        }\n      }\n    }"
+  Documents:
     type: "object"
-    properties:
-      id:
-        type: "integer"
-      caregiver_id:
-        type: "integer"
-      agency_id:
-        type: "integer"
-      hire_date:
-        type: "string"
-        format: "date"
-      position:
-        type: "string"
-      status:
-        type: "string"
-      data:
-        type: "object"
-      checklist:
-        type: "object"
-    description: "Contract between caregivers and agencies"
-  Activity:
+    example: "{\n  \"data\": [\n    {\n      \"id\": \"52\",\n      \"type\": \"documents\"\
+      ,\n      \"links\": {\n        \"self\": \"https://careflow-api-staging.zegetech.com/api/v1/documents/52\"\
+      \n      },\n      \"attributes\": {\n        \"name\": \"application_data\"\
+      ,\n        \"data\": {\n          \"position\": \"direct_support\",\n      \
+      \    \"references\": [],\n          \"work_weekends\": true,\n          \"work_overnight\"\
+      : true,\n          \"work_motivation\": \"n,mn\",\n          \"us_employability\"\
+      : true,\n          \"education_history\": {},\n          \"background_history\"\
+      : {\n            \"pending_cases\": false,\n            \"criminal_conviction\"\
+      : false\n          },\n          \"employment_history\": [\n            {\n\
+      \              \"currently_job\": false,\n              \"contact_consent\"\
+      : false\n            }\n          ],\n          \"earliest_availablity\": \"\
+      2018-02-08\",\n          \"valid_drivers_license\": true,\n          \"available_hours_weekly\"\
+      : 5,\n          \"any_work_hindrance_condition\": \"lk\"\n        },\n     \
+      \   \"attached_to_type\": \"User\",\n        \"attached_to_id\": 1,\n      \
+      \  \"status\": \"verified\"\n      },\n      \"relationships\": {\n        \"\
+      attached_to\": {\n          \"links\": {\n            \"self\": \"https://careflow-api-staging.zegetech.com/api/v1/documents/52/relationships/attached_to\"\
+      ,\n            \"related\": \"https://careflow-api-staging.zegetech.com/api/v1/documents/52/attached_to\"\
+      \n          }\n        }\n      }\n    },\n    {\n      \"id\": \"55\",\n  \
+      \    \"type\": \"documents\",\n      \"links\": {\n        \"self\": \"https://careflow-api-staging.zegetech.com/api/v1/documents/55\"\
+      \n      },\n      \"attributes\": {\n        \"name\": \"permanent_employment_check\"\
+      ,\n        \"data\": {\n          \"attachments\": []\n        },\n        \"\
+      attached_to_type\": \"User\",\n        \"attached_to_id\": 1,\n        \"status\"\
+      : \"submitted\"\n      },\n      \"relationships\": {\n        \"attached_to\"\
+      : {\n          \"links\": {\n            \"self\": \"https://careflow-api-staging.zegetech.com/api/v1/documents/55/relationships/attached_to\"\
+      ,\n            \"related\": \"https://careflow-api-staging.zegetech.com/api/v1/documents/55/attached_to\"\
+      \n          }\n        }\n      }\n    },\n    {\n      \"id\": \"54\",\n  \
+      \    \"type\": \"documents\",\n      \"links\": {\n        \"self\": \"https://careflow-api-staging.zegetech.com/api/v1/documents/54\"\
+      \n      },\n      \"attributes\": {\n        \"name\": \"background_consent\"\
+      ,\n        \"data\": {\n          \"consent\": true,\n          \"authorization\"\
+      : \"1234\"\n        },\n        \"attached_to_type\": \"User\",\n        \"\
+      attached_to_id\": 1,\n        \"status\": \"verified\"\n      },\n      \"relationships\"\
+      : {\n        \"attached_to\": {\n          \"links\": {\n            \"self\"\
+      : \"https://careflow-api-staging.zegetech.com/api/v1/documents/54/relationships/attached_to\"\
+      ,\n            \"related\": \"https://careflow-api-staging.zegetech.com/api/v1/documents/54/attached_to\"\
+      \n          }\n        }\n      }\n    },\n    {\n      \"id\": \"51\",\n  \
+      \    \"type\": \"documents\",\n      \"links\": {\n        \"self\": \"https://careflow-api-staging.zegetech.com/api/v1/documents/51\"\
+      \n      },\n      \"attributes\": {\n        \"name\": \"drivers_credential\"\
+      ,\n        \"data\": {\n          \"attachments\": [],\n          \"expiry_date\"\
+      : \"2018-02-08\"\n        },\n        \"attached_to_type\": \"User\",\n    \
+      \    \"attached_to_id\": 1,\n        \"status\": \"verified\"\n      },\n  \
+      \    \"relationships\": {\n        \"attached_to\": {\n          \"links\":\
+      \ {\n            \"self\": \"https://careflow-api-staging.zegetech.com/api/v1/documents/51/relationships/attached_to\"\
+      ,\n            \"related\": \"https://careflow-api-staging.zegetech.com/api/v1/documents/51/attached_to\"\
+      \n          }\n        }\n      }\n    },\n    {\n      \"id\": \"57\",\n  \
+      \    \"type\": \"documents\",\n      \"links\": {\n        \"self\": \"https://careflow-api-staging.zegetech.com/api/v1/documents/57\"\
+      \n      },\n      \"attributes\": {\n        \"name\": \"interview_check\",\n\
+      \        \"data\": {\n          \"attachments\": []\n        },\n        \"\
+      attached_to_type\": \"User\",\n        \"attached_to_id\": 1,\n        \"status\"\
+      : \"submitted\"\n      },\n      \"relationships\": {\n        \"attached_to\"\
+      : {\n          \"links\": {\n            \"self\": \"https://careflow-api-staging.zegetech.com/api/v1/documents/57/relationships/attached_to\"\
+      ,\n            \"related\": \"https://careflow-api-staging.zegetech.com/api/v1/documents/57/attached_to\"\
+      \n          }\n        }\n      }\n    },\n    {\n      \"id\": \"53\",\n  \
+      \    \"type\": \"documents\",\n      \"links\": {\n        \"self\": \"https://careflow-api-staging.zegetech.com/api/v1/documents/53\"\
+      \n      },\n      \"attributes\": {\n        \"name\": \"health_notice\",\n\
+      \        \"data\": {\n          \"acknowledgement\": true\n        },\n    \
+      \    \"attached_to_type\": \"User\",\n        \"attached_to_id\": 1,\n     \
+      \   \"status\": \"rejected\"\n      },\n      \"relationships\": {\n       \
+      \ \"attached_to\": {\n          \"links\": {\n            \"self\": \"https://careflow-api-staging.zegetech.com/api/v1/documents/53/relationships/attached_to\"\
+      ,\n            \"related\": \"https://careflow-api-staging.zegetech.com/api/v1/documents/53/attached_to\"\
+      \n          }\n        }\n      }\n    },\n    {\n      \"id\": \"56\",\n  \
+      \    \"type\": \"documents\",\n      \"links\": {\n        \"self\": \"https://careflow-api-staging.zegetech.com/api/v1/documents/56\"\
+      \n      },\n      \"attributes\": {\n        \"name\": \"phase1_credential\"\
+      ,\n        \"data\": {\n          \"file\": [],\n          \"grade\": \"klj\"\
+      ,\n          \"issue_date\": \"213213\",\n          \"test_location\": \"maryland\"\
+      \n        },\n        \"attached_to_type\": \"User\",\n        \"attached_to_id\"\
+      : 1,\n        \"status\": \"submitted\"\n      },\n      \"relationships\":\
+      \ {\n        \"attached_to\": {\n          \"links\": {\n            \"self\"\
+      : \"https://careflow-api-staging.zegetech.com/api/v1/documents/56/relationships/attached_to\"\
+      ,\n            \"related\": \"https://careflow-api-staging.zegetech.com/api/v1/documents/56/attached_to\"\
+      \n          }\n        }\n      }\n    }\n  ],\n  \"meta\": {\n    \"record_count\"\
+      : 7,\n    \"page_count\": 1\n  },\n  \"links\": {\n    \"first\": \"https://careflow-api-staging.zegetech.com/api/v1/users/1/documents?page%5Bnumber%5D=1\\\
+      u0026page%5Bsize%5D=10\",\n    \"last\": \"https://careflow-api-staging.zegetech.com/api/v1/users/1/documents?page%5Bnumber%5D=1\\\
+      u0026page%5Bsize%5D=10\"\n  }\n}"
+  Stream:
     type: "object"
-    properties:
-      id:
-        type: "integer"
-      caregiver_id:
-        type: "integer"
-      occurence_id:
-        type: "integer"
-      occurence_type:
-        type: "string"
-      group_id:
-        type: "integer"
-      name:
-        type: "string"
-      to_start_at:
-        type: "string"
-        format: "date-time"
-      to_end_at:
-        type: "string"
-        format: "date-time"
-      started_at:
-        type: "string"
-        format: "date-time"
-      ended_at:
-        type: "string"
-        format: "date-time"
-      data:
-        type: "object"
-    description: "An actitivy describes an event in time or just a notification"
+    example: "{\n  \"data\": {\n    \"id\": \"1\",\n    \"type\": \"streams\",\n \
+      \   \"links\": {\n      \"self\": \"http://localhost:3000/api/v1/streams/1\"\
+      \n    },\n    \"attributes\": {\n      \"originator_id\": 1,\n      \"originator_type\"\
+      : \"SystemUser\",\n      \"level\": \"info\",\n      \"recipient_id\": 1,\n\
+      \      \"send_at\": null,\n      \"status\": \"new\"\n    },\n    \"relationships\"\
+      : {\n      \"originator\": {\n        \"links\": {\n          \"self\": \"http://localhost:3000/api/v1/streams/1/relationships/originator\"\
+      ,\n          \"related\": \"http://localhost:3000/api/v1/streams/1/originator\"\
+      \n        }\n      }\n    }\n  }\n}"
+  Streams:
+    type: "object"
+    example: "{\n  \"data\": [\n    {\n      \"id\": \"1\",\n      \"type\": \"streams\"\
+      ,\n      \"links\": {\n        \"self\": \"http://localhost:3000/api/v1/streams/1\"\
+      \n      },\n      \"attributes\": {\n        \"originator_id\": 1,\n       \
+      \ \"originator_type\": \"SystemUser\",\n        \"level\": \"info\",\n     \
+      \   \"recipient_id\": 1,\n        \"send_at\": null,\n        \"status\": \"\
+      new\"\n      },\n      \"relationships\": {\n        \"originator\": {\n   \
+      \       \"links\": {\n            \"self\": \"http://localhost:3000/api/v1/streams/1/relationships/originator\"\
+      ,\n            \"related\": \"http://localhost:3000/api/v1/streams/1/originator\"\
+      \n          }\n        }\n      }\n    },\n    {\n      \"id\": \"2\",\n   \
+      \   \"type\": \"streams\",\n      \"links\": {\n        \"self\": \"http://localhost:3000/api/v1/streams/2\"\
+      \n      },\n      \"attributes\": {\n        \"originator_id\": 1,\n       \
+      \ \"originator_type\": \"SystemUser\",\n        \"level\": \"info\",\n     \
+      \   \"recipient_id\": 2,\n        \"send_at\": null,\n        \"status\": \"\
+      new\"\n      },\n      \"relationships\": {\n        \"originator\": {\n   \
+      \       \"links\": {\n            \"self\": \"http://localhost:3000/api/v1/streams/2/relationships/originator\"\
+      ,\n            \"related\": \"http://localhost:3000/api/v1/streams/2/originator\"\
+      \n          }\n        }\n      }\n    }\n  ],\n  \"meta\": {\n    \"record_count\"\
+      : 2,\n    \"page_count\": null\n  },\n  \"links\": {\n    \"first\": \"http://localhost:3000/api/v1/streams?page%5Bnumber%5D=1\\\
+      u0026page%5Bsize%5D=10\",\n    \"last\": \"http://localhost:3000/api/v1/streams?page%5Bnumber%5D=1\\\
+      u0026page%5Bsize%5D=10\"\n  }\n}"
   Notification:
     type: "object"
-    properties:
-      id:
-        type: "integer"
-      group_id:
-        type: "integer"
-      to:
-        type: "integer"
-      originate_id:
-        type: "integer"
-        description: "polymorphic reference: from"
-      originate_type:
-        type: "string"
-      send_time:
-        type: "string"
-        format: "date-time"
-      message:
-        type: "string"
-      status:
-        type: "string"
-      type:
-        type: "string"
     description: "Notifications to an activity. Can also be used as a messaging model\
       \ with the to and from "
-  Station:
+    example: "{\n  \"data\": {\n    \"id\": \"3\",\n    \"type\": \"notifications\"\
+      ,\n    \"links\": {\n      \"self\": \"http://localhost:3000/api/v1/notifications/3\"\
+      \n    },\n    \"attributes\": {\n      \"originator_id\": 1,\n      \"originator_type\"\
+      : \"SystemUser\",\n      \"level\": \"info\",\n      \"recipient_id\": 1,\n\
+      \      \"send_at\": null,\n      \"status\": \"new\",\n      \"message\": \"\
+      You application was successful. You will be contacted for and interview. You\
+      \ will also need to upoad some pre hire documents listed\",\n      \"channels\"\
+      : [\n        \"sms\",\n        \"email\"\n      ],\n      \"action_url\": \"\
+      /\",\n      \"mark\": null\n    },\n    \"relationships\": {\n      \"originator\"\
+      : {\n        \"links\": {\n          \"self\": \"http://localhost:3000/api/v1/notifications/3/relationships/originator\"\
+      ,\n          \"related\": \"http://localhost:3000/api/v1/notifications/3/originator\"\
+      \n        }\n      }\n    }\n  }\n}"
+  Notifications:
     type: "object"
-    properties:
-      id:
-        type: "integer"
-      contract_id:
-        type: "integer"
-      agency_id:
-        type: "integer"
-      room_id:
-        type: "integer"
-      facility_id:
-        type: "integer"
-      start_date:
-        type: "string"
-        format: "date"
-      end_date:
-        type: "string"
-        format: "date"
-      prior_station_id:
-        type: "integer"
-      onward_station_id:
-        type: "integer"
-      supervisor_id:
-        type: "integer"
-      room_data:
-        type: "object"
-      facility_data:
-        type: "object"
-      agency_data:
-        type: "object"
+    description: "Notifications to an activity. Can also be used as a messaging model\
+      \ with the to and from "
+    example: "{\n  \"data\": [\n    {\n      \"id\": \"3\",\n      \"type\": \"notifications\"\
+      ,\n      \"links\": {\n        \"self\": \"http://localhost:3000/api/v1/notifications/3\"\
+      \n      },\n      \"attributes\": {\n        \"originator_id\": 1,\n       \
+      \ \"originator_type\": \"SystemUser\",\n        \"level\": \"info\",\n     \
+      \   \"recipient_id\": 1,\n        \"send_at\": null,\n        \"status\": \"\
+      new\",\n        \"message\": \"You application was successful. You will be contacted\
+      \ for and interview. You will also need to upoad some pre hire documents listed\"\
+      ,\n        \"channels\": [\n          \"sms\",\n          \"email\"\n      \
+      \  ],\n        \"action_url\": \"/\",\n        \"mark\": null\n      },\n  \
+      \    \"relationships\": {\n        \"originator\": {\n          \"links\": {\n\
+      \            \"self\": \"http://localhost:3000/api/v1/notifications/3/relationships/originator\"\
+      ,\n            \"related\": \"http://localhost:3000/api/v1/notifications/3/originator\"\
+      \n          }\n        }\n      }\n    }\n  ],\n  \"meta\": {\n    \"record_count\"\
+      : 1,\n    \"page_count\": null\n  },\n  \"links\": {\n    \"first\": \"http://localhost:3000/api/v1/notifications?page%5Bnumber%5D=1\\\
+      u0026page%5Bsize%5D=10\",\n    \"last\": \"http://localhost:3000/api/v1/notifications?page%5Bnumber%5D=1\\\
+      u0026page%5Bsize%5D=10\"\n  }\n}"
+  Event:
+    type: "object"
+    description: "An actitivy describes an event in time or just a notification"
+    example: "{\n  \"data\": {\n    \"id\": \"2\",\n    \"type\": \"events\",\n  \
+      \  \"links\": {\n      \"self\": \"http://localhost:3000/api/v1/events/2\"\n\
+      \    },\n    \"attributes\": {\n      \"start_at\": null,\n      \"end_at\"\
+      : null,\n      \"title\": null,\n      \"description\": null\n    },\n    \"\
+      relationships\": {\n      \"attached_to\": {\n        \"links\": {\n       \
+      \   \"self\": \"http://localhost:3000/api/v1/events/2/relationships/attached_to\"\
+      ,\n          \"related\": \"http://localhost:3000/api/v1/events/2/attached_to\"\
+      \n        }\n      },\n      \"occurence\": {\n        \"links\": {\n      \
+      \    \"self\": \"http://localhost:3000/api/v1/events/2/relationships/occurence\"\
+      ,\n          \"related\": \"http://localhost:3000/api/v1/events/2/occurence\"\
+      \n        }\n      }\n    }\n  }\n}"
+  Events:
+    type: "object"
+    description: "An actitivy describes an event in time or just a notification"
+    example: "{\n  \"data\": [\n    {\n      \"id\": \"2\",\n      \"type\": \"events\"\
+      ,\n      \"links\": {\n        \"self\": \"http://localhost:3000/api/v1/events/2\"\
+      \n      },\n      \"attributes\": {\n        \"start_at\": null,\n        \"\
+      end_at\": null,\n        \"title\": null,\n        \"description\": null\n \
+      \     },\n      \"relationships\": {\n        \"attached_to\": {\n         \
+      \ \"links\": {\n            \"self\": \"http://localhost:3000/api/v1/events/2/relationships/attached_to\"\
+      ,\n            \"related\": \"http://localhost:3000/api/v1/events/2/attached_to\"\
+      \n          }\n        },\n        \"occurence\": {\n          \"links\": {\n\
+      \            \"self\": \"http://localhost:3000/api/v1/events/2/relationships/occurence\"\
+      ,\n            \"related\": \"http://localhost:3000/api/v1/events/2/occurence\"\
+      \n          }\n        }\n      }\n    }\n  ],\n  \"meta\": {\n    \"record_count\"\
+      : 1,\n    \"page_count\": null\n  },\n  \"links\": {\n    \"first\": \"http://localhost:3000/api/v1/events?page%5Bnumber%5D=1\\\
+      u0026page%5Bsize%5D=10\",\n    \"last\": \"http://localhost:3000/api/v1/events?page%5Bnumber%5D=1\\\
+      u0026page%5Bsize%5D=10\"\n  }\n}"
+  Contract:
+    type: "object"
+    description: "Contract between caregivers and agencies"
+    example: "{\n  \"data\": {\n    \"id\": \"1\",\n    \"type\": \"contracts\",\n\
+      \    \"links\": {\n      \"self\": \"http://localhost:3000/api/v1/contracts/1\"\
+      \n    },\n    \"attributes\": {\n      \"user_id\": 1,\n      \"agency\": {\n\
+      \        \"id\": 1,\n        \"name\": \"Agency DC\",\n        \"company_id\"\
+      : 1,\n        \"company_type\": \"waiver\"\n      },\n      \"hire_date\": null,\n\
+      \      \"position\": \"direct_support\",\n      \"status\": \"new\"\n    }\n\
+      \  }\n}"
+  Contracts:
+    type: "object"
+    description: "Contract between caregivers and agencies"
+    example: "{\n  \"data\": [\n    {\n      \"id\": \"1\",\n      \"type\": \"contracts\"\
+      ,\n      \"links\": {\n        \"self\": \"http://localhost:3000/api/v1/contracts/1\"\
+      \n      },\n      \"attributes\": {\n        \"user_id\": 1,\n        \"agency\"\
+      : {\n          \"id\": 1,\n          \"name\": \"AC DC\",\n          \"company_id\"\
+      : 1,\n          \"company_type\": \"waiver\"\n        },\n        \"hire_date\"\
+      : null,\n        \"position\": \"direct_support\",\n        \"status\": \"new\"\
+      \n      }\n    },\n    {\n      \"id\": \"2\",\n      \"type\": \"contracts\"\
+      ,\n      \"links\": {\n        \"self\": \"http://localhost:3000/api/v1/contracts/2\"\
+      \n      },\n      \"attributes\": {\n        \"user_id\": 2,\n        \"agency\"\
+      : {\n          \"id\": 1,\n          \"name\": \"AC DC\",\n          \"company_id\"\
+      : 1,\n          \"company_type\": \"waiver\"\n        },\n        \"hire_date\"\
+      : null,\n        \"position\": \"direct_support\",\n        \"status\": \"new\"\
+      \n      }\n    }\n  ],\n  \"meta\": {\n    \"record_count\": 2,\n    \"page_count\"\
+      : null\n  },\n  \"links\": {\n    \"first\": \"http://localhost:3000/api/v1/contracts?page%5Bnumber%5D=1\\\
+      u0026page%5Bsize%5D=10\",\n    \"last\": \"http://localhost:3000/api/v1/contracts?page%5Bnumber%5D=1\\\
+      u0026page%5Bsize%5D=10\"\n  }\n}"
+  Placement:
+    type: "object"
     description: "This model corresponsds to a caregivers station which is a room\
       \ and facility. "
-  Assignment:
+    example: "{\n  \"data\": {\n    \"id\": \"24\",\n    \"type\": \"placements\"\
+      ,\n    \"links\": {\n      \"self\": \"http://localhost:3000/api/v1/placements/24\"\
+      \n    },\n    \"attributes\": {\n      \"user_id\": 1,\n      \"contract_id\"\
+      : 1,\n      \"station\": {\n        \"id\": 1,\n        \"name\": \"Green room\"\
+      ,\n        \"agency_id\": 1,\n        \"company_id\": 1,\n        \"company_type\"\
+      : \"waiver\"\n      },\n      \"start_date\": \"2018-02-19\",\n      \"end_date\"\
+      : null,\n      \"onward_placement_id\": 19,\n      \"prior_placement_id\": null,\n\
+      \      \"assignments_attributes\": [\n        70,\n        71,\n        72\n\
+      \      ]\n    }\n  }\n}"
+  Placements:
     type: "object"
-    properties:
-      caregiver_id:
-        type: "integer"
-      person_id:
-        type: "integer"
-      person_data:
-        type: "object"
-      station_id:
-        type: "integer"
-      status:
-        type: "string"
-      start_date:
-        type: "string"
-        format: "date"
-      end_date:
-        type: "string"
-    description: "Assignment of a caregiver to a person under care. "
+    example: "{\n  \"data\": [\n    {\n      \"id\": \"1\",\n      \"type\": \"placements\"\
+      ,\n      \"links\": {\n        \"self\": \"http://localhost:3000/api/v1/placements/1\"\
+      \n      },\n      \"attributes\": {\n        \"user_id\": 1,\n        \"contract_id\"\
+      : 1,\n        \"station\": {\n          \"id\": 1,\n          \"name\": \"Green\
+      \ room\",\n          \"agency_id\": 1,\n          \"company_id\": 1,\n     \
+      \     \"company_type\": \"waiver\"\n        },\n        \"start_date\": \"2018-02-19\"\
+      ,\n        \"end_date\": null,\n        \"onward_placement_id\": null,\n   \
+      \     \"prior_placement_id\": null,\n        \"assignments_attributes\": [\n\
+      \          1,\n          2,\n          3\n        ]\n      }\n    }\n  ],\n\
+      \  \"meta\": {\n    \"record_count\": 1,\n    \"page_count\": null\n  },\n \
+      \ \"links\": {\n    \"first\": \"http://localhost:3000/api/v1/placements?page%5Bnumber%5D=1\\\
+      u0026page%5Bsize%5D=10\",\n    \"last\": \"http://localhost:3000/api/v1/placements?page%5Bnumber%5D=1\\\
+      u0026page%5Bsize%5D=10\"\n  }\n}"
