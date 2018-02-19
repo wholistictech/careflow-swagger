@@ -806,6 +806,8 @@ paths:
       x-example: "publish"
   /streams:
     get:
+      tags:
+      - "Streams"
       summary: "List Streams"
       parameters: []
       responses:
@@ -817,6 +819,8 @@ paths:
       - JWT: []
   /streams/{stream_id}:
     get:
+      tags:
+      - "Streams"
       summary: "Get Stream"
       parameters: []
       responses:
@@ -827,6 +831,8 @@ paths:
       security:
       - JWT: []
     patch:
+      tags:
+      - "Streams"
       summary: "Update Stream"
       consumes: []
       parameters:
@@ -854,7 +860,7 @@ paths:
   /notifications:
     get:
       tags:
-      - "Streams"
+      - "Notifications"
       summary: "List notifications"
       parameters: []
       responses:
@@ -867,7 +873,7 @@ paths:
   /notification/{id}:
     get:
       tags:
-      - "Streams"
+      - "Notifications"
       summary: "Get notification"
       parameters: []
       responses:
@@ -879,7 +885,7 @@ paths:
       - JWT: []
     patch:
       tags:
-      - "Streams"
+      - "Notifications"
       summary: "Update notification"
       consumes: []
       parameters:
@@ -917,6 +923,8 @@ paths:
       x-example: "seed"
   /activities:
     get:
+      tags:
+      - "Events"
       summary: "List Events"
       parameters: []
       responses:
@@ -927,6 +935,8 @@ paths:
       security:
       - JWT: []
     post:
+      tags:
+      - "Events"
       summary: "Create Event"
       consumes: []
       parameters:
@@ -950,6 +960,8 @@ paths:
       - JWT: []
   /activities/{event_id}:
     get:
+      tags:
+      - "Events"
       summary: "Get Event"
       parameters: []
       responses:
@@ -960,6 +972,8 @@ paths:
       security:
       - JWT: []
     delete:
+      tags:
+      - "Events"
       summary: "Delete Event"
       parameters: []
       responses:
@@ -968,6 +982,8 @@ paths:
       security:
       - JWT: []
     patch:
+      tags:
+      - "Events"
       summary: "Update Event"
       consumes: []
       parameters:
@@ -994,6 +1010,8 @@ paths:
       type: "string"
   /contracts:
     get:
+      tags:
+      - "Contracts"
       summary: "List Contracts"
       parameters: []
       responses:
@@ -1005,6 +1023,8 @@ paths:
       - JWT: []
   /contracts/{contract_id}:
     get:
+      tags:
+      - "Contracts"
       summary: "Get Contract"
       parameters: []
       responses:
@@ -1015,6 +1035,8 @@ paths:
       security:
       - JWT: []
     patch:
+      tags:
+      - "Contracts"
       summary: "Update Contract"
       parameters: []
       responses:
@@ -1038,6 +1060,8 @@ paths:
       x-example: "accept"
   /placements:
     get:
+      tags:
+      - "Placements"
       summary: "List Placements"
       parameters: []
       responses:
@@ -1048,6 +1072,8 @@ paths:
       security:
       - JWT: []
     post:
+      tags:
+      - "Placements"
       summary: "Create Placements"
       consumes: []
       parameters:
@@ -1081,6 +1107,8 @@ paths:
       - JWT: []
   /placements/{placement_id}:
     get:
+      tags:
+      - "Placements"
       summary: "Get Placement"
       parameters: []
       responses:
@@ -1091,6 +1119,8 @@ paths:
       security:
       - JWT: []
     patch:
+      tags:
+      - "Placements"
       summary: "Update Placement"
       consumes: []
       parameters:
@@ -1149,6 +1179,8 @@ paths:
       - JWT: []
   /system/schemas/{schema_name}:
     get:
+      tags:
+      - "System"
       summary: "Get Schema of document"
       parameters: []
       responses:
