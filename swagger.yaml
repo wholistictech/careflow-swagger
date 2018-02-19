@@ -342,6 +342,8 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/User"
+      security:
+      - JWT: []
   /users/sign_out:
     delete:
       tags:
@@ -377,6 +379,8 @@ paths:
       responses:
         204:
           description: "Status 204"
+      security:
+      - JWT: []
   /users:
     get:
       tags:
@@ -408,6 +412,8 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Users"
+      security:
+      - JWT: []
   /users/{id}:
     get:
       tags:
@@ -438,6 +444,8 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/User"
+      security:
+      - JWT: []
     patch:
       tags:
       - "Users"
@@ -491,6 +499,8 @@ paths:
           description: "Modification accepted"
           schema:
             $ref: "#/definitions/User"
+      security:
+      - JWT: []
     parameters:
     - name: "id"
       in: "path"
@@ -527,6 +537,8 @@ paths:
           description: "Status 200"
         422:
           description: "Status 422"
+      security:
+      - JWT: []
     parameters:
     - name: "id"
       in: "path"
@@ -566,6 +578,8 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Documents"
+      security:
+      - JWT: []
     parameters:
     - name: "id"
       in: "path"
@@ -601,6 +615,8 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Documents"
+      security:
+      - JWT: []
     post:
       tags:
       - "Documents"
@@ -636,6 +652,8 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Document"
+      security:
+      - JWT: []
   /documents/{id}:
     get:
       tags:
@@ -666,6 +684,8 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Document"
+      security:
+      - JWT: []
     delete:
       tags:
       - "Documents"
@@ -694,6 +714,8 @@ paths:
       responses:
         204:
           description: "Status 204"
+      security:
+      - JWT: []
     patch:
       tags:
       - "Documents"
@@ -733,6 +755,8 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Document"
+      security:
+      - JWT: []
     parameters:
     - name: "id"
       in: "path"
@@ -772,6 +796,8 @@ paths:
       responses:
         200:
           description: "Status 200"
+      security:
+      - JWT: []
     parameters:
     - name: "switch"
       in: "path"
@@ -787,6 +813,8 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Streams"
+      security:
+      - JWT: []
   /streams/{stream_id}:
     get:
       summary: "Get Stream"
@@ -796,6 +824,8 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Stream"
+      security:
+      - JWT: []
     patch:
       summary: "Update Stream"
       consumes: []
@@ -814,6 +844,8 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Stream"
+      security:
+      - JWT: []
     parameters:
     - name: "stream_id"
       in: "path"
@@ -830,6 +862,8 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Notifications"
+      security:
+      - JWT: []
   /notification/{id}:
     get:
       tags:
@@ -841,6 +875,8 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Notification"
+      security:
+      - JWT: []
     patch:
       tags:
       - "Streams"
@@ -861,6 +897,8 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Notification"
+      security:
+      - JWT: []
     parameters:
     - name: "id"
       in: "path"
@@ -886,6 +924,8 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Events"
+      security:
+      - JWT: []
     post:
       summary: "Create Event"
       consumes: []
@@ -906,6 +946,8 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Event"
+      security:
+      - JWT: []
   /activities/{event_id}:
     get:
       summary: "Get Event"
@@ -915,12 +957,16 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Event"
+      security:
+      - JWT: []
     delete:
       summary: "Delete Event"
       parameters: []
       responses:
         204:
           description: "Status 204"
+      security:
+      - JWT: []
     patch:
       summary: "Update Event"
       consumes: []
@@ -939,6 +985,8 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Event"
+      security:
+      - JWT: []
     parameters:
     - name: "event_id"
       in: "path"
@@ -953,6 +1001,8 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Contracts"
+      security:
+      - JWT: []
   /contracts/{contract_id}:
     get:
       summary: "Get Contract"
@@ -962,6 +1012,8 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Contract"
+      security:
+      - JWT: []
     patch:
       summary: "Update Contract"
       parameters: []
@@ -970,6 +1022,8 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Contract"
+      security:
+      - JWT: []
     parameters:
     - name: "contract_id"
       in: "path"
@@ -991,6 +1045,8 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Placements"
+      security:
+      - JWT: []
     post:
       summary: "Create Placements"
       consumes: []
@@ -1002,25 +1058,27 @@ paths:
           type: "object"
         x-examples:
           application/vnd.api+json: "{\n    \"data\": {\n        \"type\": \"placements\"\
-            ,\n        \"attributes\": {\n            \"station\": {\n           \
-            \     \"id\": 1,\n                \"name\": \"Green room\",\n        \
-            \        \"agency_id\": 1,\n                \"company_id\": 1,\n     \
-            \           \"company_type\": \"waiver\"\n            },\n           \
-            \ \"assignments_attributes\": [\n                {\n                 \
-            \   \"person\": {\n                        \"name\": \"Deion Stoltenberg\"\
-            ,\n                        \"station_id\": 1\n                    }\n\
-            \                },\n                {\n                    \"person\"\
-            : {\n                        \"name\": \"Phyllis Yundt\",\n          \
-            \              \"station_id\": 1\n                    }\n            \
-            \    },\n                {\n                    \"person\": {\n      \
-            \                  \"name\": \"Reymundo Lakin DDS\",\n               \
-            \         \"station_id\": 1\n                    }\n                }\n\
-            \            ]\n        }\n    }\n}\n"
+            ,\n        \"attributes\": {\n            \"user_id\": 1,\n          \
+            \  \"station\": {\n                \"id\": 1,\n                \"name\"\
+            : \"Green room\",\n                \"agency_id\": 1,\n               \
+            \ \"company_id\": 1,\n                \"company_type\": \"waiver\"\n \
+            \           },\n            \"assignments_attributes\": [\n          \
+            \      {\n                    \"person\": {\n                        \"\
+            name\": \"Deion Stoltenberg\",\n                        \"station_id\"\
+            : 1\n                    }\n                },\n                {\n  \
+            \                  \"person\": {\n                        \"name\": \"\
+            Phyllis Yundt\",\n                        \"station_id\": 1\n        \
+            \            }\n                },\n                {\n              \
+            \      \"person\": {\n                        \"name\": \"Reymundo Lakin\
+            \ DDS\",\n                        \"station_id\": 1\n                \
+            \    }\n                }\n            ]\n        }\n    }\n}\n\n"
       responses:
         200:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Placement"
+      security:
+      - JWT: []
   /placements/{placement_id}:
     get:
       summary: "Get Placement"
@@ -1030,6 +1088,8 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Placement"
+      security:
+      - JWT: []
     patch:
       summary: "Update Placement"
       consumes: []
@@ -1048,6 +1108,8 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Placement"
+      security:
+      - JWT: []
     parameters:
     - name: "placement_id"
       in: "path"
@@ -1083,6 +1145,8 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/User"
+      security:
+      - JWT: []
   /system/schemas/{schema_name}:
     get:
       summary: "Get Schema of document"
@@ -1233,6 +1297,8 @@ paths:
               \  \"description\": \"Phone\",\n            \"type\": \"string\"\n \
               \         }\n        }\n      }\n    }\n  },\n  \"additionalProperties\"\
               : false,\n  \"required\": [\n    \"position\"\n  ]\n}\n  }"
+      security:
+      - JSONAPI: []
     parameters:
     - name: "schema_name"
       in: "path"
@@ -1452,11 +1518,8 @@ definitions:
       \    \"caregiver_type\": \"specialist\",\n            \"role\": \"trainer\"\
       ,\n            \"required_documents\": {\n                \"applied\": [\n \
       \                   \"drivers_license\"\n                ]\n            },\n\
-      \            \"settings\": null,\n            \"age\": 23\n        },\n    \
-      \    \"relationships\": {\n            \"documents\": {\n                \"\
-      links\": {\n                    \"self\": \"http://www.example.com/api/v1/users/1060/relationships/documents\"\
-      ,\n                    \"related\": \"http://www.example.com/api/v1/users/1060/documents\"\
-      \n                }\n            }\n        }\n    }\n}"
+      \            \"settings\": null,\n            \"age\": 23\n        }\n    }\n\
+      }"
   Users:
     type: "object"
     example: "{\n    \"data\": [\n        {\n            \"id\": \"1060\",\n     \
@@ -1474,11 +1537,7 @@ definitions:
       required_documents\": {\n                    \"applied\": [\n              \
       \          \"drivers_license\"\n                    ]\n                },\n\
       \                \"settings\": null,\n                \"age\": 23\n        \
-      \    },\n            \"relationships\": {\n                \"documents\": {\n\
-      \                    \"links\": {\n                        \"self\": \"http://www.example.com/api/v1/users/1060/relationships/documents\"\
-      ,\n                        \"related\": \"http://www.example.com/api/v1/users/1060/documents\"\
-      \n                    }\n                }\n            }\n        }\n    ]\n\
-      }"
+      \    }\n        }\n    ]\n}"
   Document:
     type: "object"
     description: "Documents that are attacehd to a caregiers account and are tracked\
@@ -1497,10 +1556,7 @@ definitions:
       2018-02-08\",\n          \"valid_drivers_license\": true,\n          \"available_hours_weekly\"\
       : 5,\n          \"any_work_hindrance_condition\": \"lk\"\n        },\n     \
       \   \"attached_to_type\": \"User\",\n        \"attached_to_id\": 1,\n      \
-      \  \"status\": \"verified\"\n      },\n      \"relationships\": {\n        \"\
-      attached_to\": {\n          \"links\": {\n            \"self\": \"https://careflow-api-staging.zegetech.com/api/v1/documents/52/relationships/attached_to\"\
-      ,\n            \"related\": \"https://careflow-api-staging.zegetech.com/api/v1/documents/52/attached_to\"\
-      \n          }\n        }\n      }\n    }"
+      \  \"status\": \"verified\"\n      }\n    }"
   Documents:
     type: "object"
     example: "{\n  \"data\": [\n    {\n      \"id\": \"52\",\n      \"type\": \"documents\"\
