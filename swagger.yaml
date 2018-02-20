@@ -1796,15 +1796,24 @@ definitions:
     type: "object"
     description: "This model corresponsds to a caregivers station which is a room\
       \ and facility. "
-    example: "{\n  \"data\": {\n    \"id\": \"24\",\n    \"type\": \"placements\"\
-      ,\n    \"links\": {\n      \"self\": \"http://localhost:3000/api/v1/placements/24\"\
-      \n    },\n    \"attributes\": {\n      \"user_id\": 1,\n      \"contract_id\"\
-      : 1,\n      \"station\": {\n        \"id\": 1,\n        \"name\": \"Green room\"\
-      ,\n        \"agency_id\": 1,\n        \"company_id\": 1,\n        \"company_type\"\
-      : \"waiver\"\n      },\n      \"start_date\": \"2018-02-19\",\n      \"end_date\"\
-      : null,\n      \"onward_placement_id\": 19,\n      \"prior_placement_id\": null,\n\
-      \      \"assignments_attributes\": [\n        70,\n        71,\n        72\n\
-      \      ]\n    }\n  }\n}"
+    example: "{\n    \"data\": {\n        \"id\": \"24\",\n        \"type\": \"placements\"\
+      ,\n        \"links\": {\n            \"self\": \"http://localhost:3000/api/v1/placements/24\"\
+      \n        },\n        \"attributes\": {\n            \"user_id\": 1,\n     \
+      \       \"contract_id\": 1,\n            \"station\": {\n                \"\
+      id\": 1,\n                \"name\": \"Green room\",\n                \"agency_id\"\
+      : 1,\n                \"company_id\": 1,\n                \"company_type\":\
+      \ \"waiver\"\n            },\n            \"start_date\": \"2018-02-19\",\n\
+      \            \"end_date\": null,\n            \"onward_placement_id\": 19,\n\
+      \            \"prior_placement_id\": null,\n            \"assignments_attributes\"\
+      : [\n                {\n                    \"person\": {\n                \
+      \        \"name\": \"Deion Stoltenberg\",\n                        \"station_id\"\
+      : 1\n                    }\n                },\n                {\n        \
+      \            \"person\": {\n                        \"name\": \"Phyllis Yundt\"\
+      ,\n                        \"station_id\": 1\n                    }\n      \
+      \          },\n                {\n                    \"person\": {\n      \
+      \                  \"name\": \"Reymundo Lakin DDS\",\n                     \
+      \   \"station_id\": 1\n                    }\n                }\n          \
+      \  ]\n        }\n    }\n}"
   Placements:
     type: "object"
     example: "{\n  \"data\": [\n    {\n      \"id\": \"1\",\n      \"type\": \"placements\"\
