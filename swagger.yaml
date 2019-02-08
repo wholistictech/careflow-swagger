@@ -385,7 +385,7 @@ paths:
     get:
       tags:
       - "Users"
-      summary: "Get all users"
+      summary: "List users"
       description: "Retrieves only users in the allowed logged in users scope"
       parameters:
       - name: "Authorization"
@@ -548,6 +548,7 @@ paths:
       in: "path"
       required: true
       type: "string"
+      x-example: "verify"
   /users/{id}/documents:
     get:
       tags:
@@ -623,6 +624,13 @@ paths:
       summary: "Create document"
       consumes: []
       parameters:
+      - name: "otp"
+        in: "query"
+        required: false
+        type: "string"
+        description: "Adding this to any authenticated endpoint will authenticate\
+          \ the otp_code"
+        x-example: "123654"
       - name: "Authorization"
         in: "header"
         required: false
@@ -870,6 +878,29 @@ paths:
             $ref: "#/definitions/Notifications"
       security:
       - JWT: []
+    post:
+      tags:
+      - "Notifications"
+      summary: "Create Notification"
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+        x-examples:
+          application/vnd.api+json: "{\n    \"data\": {\n        \"type\": \"notifications\"\
+            ,\n        \"attributes\": {\n            \"user_id\": 1,\n          \
+            \  \"message\": \"do something quick\",\n            \"action_url\": \"\
+            https://my.url.com\"\n        }\n    }\n}"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Notification"
+      security:
+      - JWT: []
   /notification/{id}:
     get:
       tags:
@@ -921,19 +952,27 @@ paths:
       required: true
       type: "string"
       x-example: "seed"
-  /activities:
+  /events:
     get:
       tags:
       - "Events"
       summary: "List Events"
-      parameters: []
+      parameters:
+      - name: "starts_before"
+        in: "query"
+        required: false
+        type: "string"
+        x-example: "2018-02-12"
+      - name: "starts_after"
+        in: "query"
+        required: false
+        type: "string"
+        x-example: "2018-02-12"
       responses:
         200:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Events"
-      security:
-      - JWT: []
     post:
       tags:
       - "Events"
@@ -950,15 +989,15 @@ paths:
             ,\n        \"attributes\": {\n            \"title\": \"orientation class\
             \ 1\",\n            \"description\": \"Orientation of the Caregivers\"\
             ,\n            \"start_at\": \"2018-02-19 16:02:31 +0000\",\n        \
-            \    \"end_at\": \"2018-02-19 16:02:31 +0000\"\n        }\n    }\n}\n"
+            \    \"end_at\": \"2018-02-19 16:02:31 +0000\",\n            \"occurence_id\"\
+            : 251,\n            \"occurence_type\": \"Training\"\n        }\n    }\n\
+            }"
       responses:
         200:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Event"
-      security:
-      - JWT: []
-  /activities/{event_id}:
+  /events/{event_id}:
     get:
       tags:
       - "Events"
@@ -969,8 +1008,6 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Event"
-      security:
-      - JWT: []
     delete:
       tags:
       - "Events"
@@ -979,8 +1016,6 @@ paths:
       responses:
         204:
           description: "Status 204"
-      security:
-      - JWT: []
     patch:
       tags:
       - "Events"
@@ -1001,10 +1036,115 @@ paths:
           description: "Status 200"
           schema:
             $ref: "#/definitions/Event"
-      security:
-      - JWT: []
     parameters:
     - name: "event_id"
+      in: "path"
+      required: true
+      type: "string"
+  /participations:
+    get:
+      tags:
+      - "Participations"
+      summary: "List Participations"
+      parameters:
+      - name: "starts_before"
+        in: "query"
+        required: false
+        type: "string"
+        x-example: "2018-02-12"
+      - name: "starts_after"
+        in: "query"
+        required: false
+        type: "string"
+        x-example: "2018-02-12"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Participation"
+          examples:
+            application/vnd.api+json: "{\n    \"data\": [{\n        \"id\": \"295\"\
+              ,\n        \"type\": \"participations\",\n        \"links\": {\n   \
+              \         \"self\": \"http://www.example.com/api/v1/participations/295\"\
+              \n        },\n        \"attributes\": {\n            \"user_id\": 1568,\n\
+              \            \"event_id\": 285,\n            \"status\": null,\n   \
+              \         \"event\": {\n                \"idata\": {\n             \
+              \       \"station_ids\": []\n                },\n                \"\
+              station_ids\": [],\n                \"id\": 285,\n                \"\
+              owner_type\": \"User\",\n                \"owner_id\": 1569,\n     \
+              \           \"occurence_type\": null,\n                \"occurence_id\"\
+              : null,\n                \"title\": \"Goyette-Hartmann\",\n        \
+              \        \"start_at\": \"2018-03-11T17:17:05.797Z\",\n             \
+              \   \"end_at\": null,\n                \"recurrence\": null,\n     \
+              \           \"data\": null,\n                \"lock_version\": 0,\n\
+              \                \"created_at\": \"2018-03-10T17:17:05.827Z\",\n   \
+              \             \"updated_at\": \"2018-03-10T17:17:05.827Z\",\n      \
+              \          \"administrators\": null\n            }\n        }\n    }]\n\
+              }"
+    post:
+      tags:
+      - "Participations"
+      summary: "Create Participation"
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+        x-examples:
+          application/vnd.api+json: "{\n    \"data\": {\n        \"type\": \"participations\"\
+            ,\n        \"attributes\": {\n            \"user_id\": 1,\n          \
+            \  \"event_id\": 1,\n\t\t\t\"status\": null\n        }\n    }\n}"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Participation"
+  /participations/{participation_id}:
+    get:
+      tags:
+      - "Participations"
+      summary: "Get Participation"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Participation"
+    delete:
+      tags:
+      - "Participations"
+      summary: "Delete Participation"
+      parameters: []
+      responses:
+        204:
+          description: "Status 204"
+    patch:
+      tags:
+      - "Participations"
+      summary: "Update Participation"
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+        x-examples:
+          application/vnd.api+json: "{\n    \"data\": {\n        \"id\": \"295\",\n\
+            \        \"type\": \"participations\",\n        \"links\": {\n       \
+            \     \"self\": \"http://www.example.com/api/v1/participations/295\"\n\
+            \        },\n        \"attributes\": {\n            \"user_id\": 1568,\n\
+            \            \"event_id\": 285,\n            \"status\": null\n      \
+            \  }\n    }\n}"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Participation"
+    parameters:
+    - name: "participation_id"
       in: "path"
       required: true
       type: "string"
@@ -1145,6 +1285,338 @@ paths:
       in: "path"
       required: true
       type: "string"
+  /courses:
+    get:
+      tags:
+      - "Courses"
+      summary: "List Courses"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Events"
+    post:
+      tags:
+      - "Courses"
+      summary: "Create Course"
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+        x-examples:
+          application/vnd.api+json: "{\n    \"data\": {\n        \"type\": \"events\"\
+            ,\n        \"attributes\": {\n            \"title\": \"orientation class\
+            \ 1\",\n            \"description\": \"Orientation of the Caregivers\"\
+            ,\n            \"start_at\": \"2018-02-19 16:02:31 +0000\",\n        \
+            \    \"end_at\": \"2018-02-19 16:02:31 +0000\"\n        }\n    }\n}\n"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Event"
+  /courses/{course_id}:
+    get:
+      tags:
+      - "Courses"
+      summary: "Get Course"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Event"
+    patch:
+      tags:
+      - "Courses"
+      summary: "Update Course"
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+        x-examples:
+          application/vnd.api+json: "{\n    \"data\": {\n        \"type\": \"events\"\
+            ,\n        \"id\": 1,\n        \"attributes\": {\n            \"title\"\
+            : \"orientation class 2\"\n        }\n    }\n}\n\n"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Event"
+    parameters:
+    - name: "course_id"
+      in: "path"
+      required: true
+      type: "string"
+  /topics:
+    get:
+      tags:
+      - "Topics"
+      summary: "List Topics"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Events"
+    post:
+      tags:
+      - "Topics"
+      summary: "Create Topic"
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+        x-examples:
+          application/vnd.api+json: "{\n    \"data\": {\n        \"type\": \"events\"\
+            ,\n        \"attributes\": {\n            \"title\": \"orientation class\
+            \ 1\",\n            \"description\": \"Orientation of the Caregivers\"\
+            ,\n            \"start_at\": \"2018-02-19 16:02:31 +0000\",\n        \
+            \    \"end_at\": \"2018-02-19 16:02:31 +0000\"\n        }\n    }\n}\n"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Event"
+  /topics/{topic_id}:
+    get:
+      tags:
+      - "Topics"
+      summary: "Get Topic"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Event"
+    delete:
+      tags:
+      - "Topics"
+      summary: "Delete Topic"
+      parameters: []
+      responses:
+        204:
+          description: "Status 204"
+    patch:
+      tags:
+      - "Topics"
+      summary: "Update Topic"
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+        x-examples:
+          application/vnd.api+json: "{\n    \"data\": {\n        \"type\": \"events\"\
+            ,\n        \"id\": 1,\n        \"attributes\": {\n            \"title\"\
+            : \"orientation class 2\"\n        }\n    }\n}\n\n"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Event"
+    parameters:
+    - name: "topic_id"
+      in: "path"
+      required: true
+      type: "string"
+  /trainings:
+    get:
+      tags:
+      - "Trainings"
+      summary: "List Trainings"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Events"
+    post:
+      tags:
+      - "Trainings"
+      summary: "Create Training"
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+        x-examples:
+          application/vnd.api+json: "{\n    \"data\": {\n        \"type\": \"events\"\
+            ,\n        \"attributes\": {\n            \"title\": \"orientation class\
+            \ 1\",\n            \"description\": \"Orientation of the Caregivers\"\
+            ,\n            \"start_at\": \"2018-02-19 16:02:31 +0000\",\n        \
+            \    \"end_at\": \"2018-02-19 16:02:31 +0000\"\n        }\n    }\n}\n"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Event"
+  /trainings/{training_id}:
+    get:
+      tags:
+      - "Trainings"
+      summary: "Get Training"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Event"
+    delete:
+      tags:
+      - "Trainings"
+      summary: "Delete Training"
+      parameters: []
+      responses:
+        204:
+          description: "Status 204"
+    patch:
+      tags:
+      - "Trainings"
+      summary: "Update Training"
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+        x-examples:
+          application/vnd.api+json: "{\n    \"data\": {\n        \"type\": \"events\"\
+            ,\n        \"id\": 1,\n        \"attributes\": {\n            \"title\"\
+            : \"orientation class 2\"\n        }\n    }\n}\n\n"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Event"
+    parameters:
+    - name: "training_id"
+      in: "path"
+      required: true
+      type: "string"
+  /enrollments:
+    get:
+      tags:
+      - "Enrollments"
+      summary: "List Enrollments"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Events"
+    post:
+      tags:
+      - "Enrollments"
+      summary: "Create Enrollment"
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+        x-examples:
+          application/vnd.api+json: "// Single\n{\n    \"data\": {\n        \"type\"\
+            : \"enrollments\",\n        \"attributes\": {\n            \"user_id\"\
+            : 303,\n            \"training_id\": 47\n        }\n    }\n}\n\n\n// Batch\n\
+            {\n    \"data\": {\n        \"type\": \"enrollments\",\n        \"attributes\"\
+            : {\n            \"students\": [\n                315,\n             \
+            \   316\n            ],\n            \"courses\": [\n                68,\n\
+            \                69\n            ]\n        }\n    }\n}\n\n"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Event"
+  /enrollments/{enrollment_id}:
+    get:
+      tags:
+      - "Enrollments"
+      summary: "Get Enrollment"
+      parameters: []
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Event"
+    delete:
+      tags:
+      - "Enrollments"
+      summary: "Delete Enrollment"
+      parameters: []
+      responses:
+        204:
+          description: "Status 204"
+    patch:
+      tags:
+      - "Enrollments"
+      summary: "Update Enrollment"
+      consumes: []
+      parameters:
+      - name: "body"
+        in: "body"
+        required: true
+        schema:
+          type: "object"
+        x-examples:
+          application/vnd.api+json: "{\n    \"data\": {\n        \"type\": \"events\"\
+            ,\n        \"id\": 1,\n        \"attributes\": {\n            \"title\"\
+            : \"orientation class 2\"\n        }\n    }\n}\n\n"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            $ref: "#/definitions/Event"
+    parameters:
+    - name: "enrollment_id"
+      in: "path"
+      required: true
+      type: "string"
+  /search:
+    get:
+      tags:
+      - "Search"
+      summary: "Mutlisearch"
+      description: "search for user, event enrollments, participations, courses, topics,\
+        \ trainings."
+      parameters:
+      - name: "q"
+        in: "query"
+        required: false
+        type: "string"
+        x-example: "somethigns"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            type: "object"
+          examples:
+            application/vnd.api+json: "[\n  {\n    \"id\": 1,\n    \"content\": \"\
+              Kariuki Admin  admin invited\",\n    \"searchable_type\": \"User\",\n\
+              \    \"searchable_id\": 1,\n    \"created_at\": \"2018-03-10T15:26:20.964Z\"\
+              ,\n    \"updated_at\": \"2018-03-10T15:26:20.973Z\"\n  },\n  {\n   \
+              \ \"id\": 2,\n    \"content\": \"Kariuki Trainer  trainer invited\"\
+              ,\n    \"searchable_type\": \"User\",\n    \"searchable_id\": 2,\n \
+              \   \"created_at\": \"2018-03-10T15:26:21.140Z\",\n    \"updated_at\"\
+              : \"2018-03-10T15:26:21.149Z\"\n  },\n  {\n    \"id\": 3,\n    \"content\"\
+              : \"Kariuki Principal  principal invited\",\n    \"searchable_type\"\
+              : \"User\",\n    \"searchable_id\": 3,\n    \"created_at\": \"2018-03-10T15:26:21.313Z\"\
+              ,\n    \"updated_at\": \"2018-03-10T15:26:21.323Z\"\n  }\n]"
   /system/whoami:
     get:
       tags:
@@ -1336,6 +1808,85 @@ paths:
       in: "path"
       required: true
       type: "string"
+  /system/otp_link:
+    get:
+      tags:
+      - "System"
+      summary: "Current User OTP Link"
+      description: "OTP provisioning Link for current user"
+      parameters:
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Should contain the JWT token.\n                Format of the\
+          \ value is : Bearer $JWT_TOKEN"
+        x-example: "Bearer xxxxxxxxx.yyyyyyyyyy.zzzzzzzzz"
+      - name: "Accept"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            type: "object"
+          examples:
+            application/vnd.api+json: "{\n  \"otp_uri\":\"otpauth://totp/Better%20Care:Caregiver?secret=rmyduaqbrjqanwwx\\\
+              u0026issuer=Better+Care\"\n}"
+  /system/send_otp:
+    get:
+      tags:
+      - "System"
+      summary: "Send OTP"
+      description: "send OTP to user through SMS or email"
+      parameters:
+      - name: "channel"
+        in: "query"
+        required: true
+        type: "string"
+        x-example: "sms"
+      - name: "validity"
+        in: "query"
+        required: false
+        type: "string"
+        description: "time is seconds to keep the OTP valid"
+        x-example: "60"
+      - name: "Authorization"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Should contain the JWT token.\n                Format of the\
+          \ value is : Bearer $JWT_TOKEN"
+        x-example: "Bearer xxxxxxxxx.yyyyyyyyyy.zzzzzzzzz"
+      - name: "Accept"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      - name: "Content-Type"
+        in: "header"
+        required: false
+        type: "string"
+        description: "Request and Response is always JSON"
+        x-example: "application/vnd.api+json"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            type: "object"
+          examples:
+            application/vnd.api+json: "{\n  \"otp_uri\":\"otpauth://totp/Better%20Care:Caregiver?secret=rmyduaqbrjqanwwx\\\
+              u0026issuer=Better+Care\"\n}"
   /assets/{user_id}/{folder}/{file_name}:
     get:
       tags:
@@ -1829,3 +2380,41 @@ definitions:
       \ \"links\": {\n    \"first\": \"http://localhost:3000/api/v1/placements?page%5Bnumber%5D=1\\\
       u0026page%5Bsize%5D=10\",\n    \"last\": \"http://localhost:3000/api/v1/placements?page%5Bnumber%5D=1\\\
       u0026page%5Bsize%5D=10\"\n  }\n}"
+  Course:
+    type: "object"
+    example: "{\n    \"data\": {\n        \"type\": \"courses\",\n        \"attributes\"\
+      : {\n            \"name\": \"Hettinger-Anderson\",\n            \"description\"\
+      : \"Eum dolores id. Aliquam excepturi fugit nulla deserunt doloremque dolore\
+      \ nisi. Laborum qui vitae assumenda expedita quia. Dolores corrupti laborum\
+      \ explicabo aut officia.\",\n            \"cycles_per_year\": 1,\n         \
+      \   \"code\": \"295\",\n            \"trainings_attributes\": [\n          \
+      \      {\n                    \"qualified_students\": [\n                  \
+      \      \"direct_support\",\n                        \"rn_nurse\"\n         \
+      \           ],\n                    \"cycle_days\": 60,\n                  \
+      \  \"topic_id\": 282\n                }\n            ]\n        }\n    }\n}"
+  Topic:
+    type: "object"
+    example: "{\n    \"data\": {\n        \"id\": \"24\",\n        \"type\": \"topics\"\
+      ,\n        \"links\": {\n            \"self\": \"http://localhost:3000/api/v1/topics/24\"\
+      \n        },\n        \"attributes\": {\n            \"category\": \"caregiving\"\
+      ,\n            \"name\": \"The World, the Flesh and the Sky\",\n           \
+      \ \"code\": \"986\"\n        }\n    }\n}"
+  Training:
+    type: "object"
+    example: "{\n    \"data\": {\n        \"id\": \"24\",\n        \"type\": \"trainings\"\
+      ,\n        \"links\": {\n            \"self\": \"http://localhost:3000/api/v1/trainings/24\"\
+      \n        },\n        \"attributes\": {\n            \"qualified_students\"\
+      : [\n                \"direct_support\",\n                \"rn_nurse\"\n   \
+      \         ],\n            \"cycle_days\": 365\n        }\n    }\n}"
+  Enrollment:
+    type: "object"
+    example: "{\n    \"data\": {\n        \"id\": \"24\",\n        \"type\": \"enrollments\"\
+      ,\n        \"links\": {\n            \"self\": \"http://localhost:3000/api/v1/enrollments/24\"\
+      \n        },\n        \"attributes\": {\n            \"status\": \"completed\"\
+      \n        }\n    }\n}"
+  Participation:
+    type: "object"
+    example: "{\n    \"data\": {\n        \"id\": \"295\",\n        \"type\": \"participations\"\
+      ,\n        \"links\": {\n            \"self\": \"http://www.example.com/api/v1/participations/295\"\
+      \n        },\n        \"attributes\": {\n            \"user_id\": 1568,\n  \
+      \          \"event_id\": 285,\n        }\n    }\n}"
